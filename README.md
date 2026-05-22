@@ -75,7 +75,8 @@ bun run preview
 Check out the [deployment documentation](https://nuxt.com/docs/getting-started/deployment) for more information.
 
 
-# Notes:
-- We pin the Nuxt versions in package.json to v3.21.2 because setting ssr to false in nuxt.config.ts caused errors. Issue still not resolved - https://github.com/nuxt/nuxt/issues/34957
-- We also pin the versions, to reduce the chance of a supply chain attack. This is also the reason we use pnpm.
+## Notes
+
+- Nuxt is pinned to v3.21.2 because disabling SSR (`ssr: false` in `nuxt.config.ts`) causes errors. See [nuxt/nuxt#34957](https://github.com/nuxt/nuxt/issues/34957).
+- All dependency versions are pinned (no ranges) to reduce supply chain attack risk. pnpm is used for the same reason — its strict resolution enforces exact versions.
 
