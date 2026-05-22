@@ -1,3 +1,10 @@
 @import "tailwindcss";
 @import "@nordhealth/css/tailwind";
 
+html {
+  font-family: var(--n-font-family), sans-serif;
+  font-weight: var(--n-font-weight);
+  font-feature-settings: var(--n-font-features);
+  color: var(--n-color-text);
+  -webkit-text-size-adjust: 100%;
+}

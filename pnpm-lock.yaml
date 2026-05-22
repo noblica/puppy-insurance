@@ -10,7 +10,10 @@ importers:
     dependencies:
       '@nordhealth/css':
         specifier: 5.0.8
-        version: 5.0.8(tailwindcss@4.3.0)
+        version: 5.0.8(@nordhealth/fonts@3.0.4)(tailwindcss@4.3.0)
+      '@nordhealth/fonts':
+        specifier: 3.0.4
+        version: 3.0.4
       '@nordhealth/tokens':
         specifier: ^8.0.5
         version: 8.0.5
@@ -601,6 +604,9 @@ packages:
         optional: true
       tailwindcss:
         optional: true
+
+  '@nordhealth/fonts@3.0.4':
+    resolution: {integrity: sha512-NDQEwCVGPl6m4lIkjkRLSnBsw8ebnmurRT38WjKsBcgn7n9mBwv0MDZtiRYnnjxaW3dGG0Bc2eQZLEgd2ttRpQ==}
 
   '@nordhealth/tokens@8.0.5':
     resolution: {integrity: sha512-zW89ikbRt4yasEm676G+FD2+3fiyj/CpDMS89GLfEAXOEo+JqlEwZvAHJtjczkgh+HvP1UQF+vb39oQ//8A0Mw==}
@@ -4153,11 +4159,14 @@ snapshots:
       '@nodelib/fs.scandir': 2.1.5
       fastq: 1.20.1
 
-  '@nordhealth/css@5.0.8(tailwindcss@4.3.0)':
+  '@nordhealth/css@5.0.8(@nordhealth/fonts@3.0.4)(tailwindcss@4.3.0)':
     dependencies:
       '@types/clean-css': 4.2.11
     optionalDependencies:
+      '@nordhealth/fonts': 3.0.4
       tailwindcss: 4.3.0
+
+  '@nordhealth/fonts@3.0.4': {}
 
   '@nordhealth/tokens@8.0.5': {}
 
