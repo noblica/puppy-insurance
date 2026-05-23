@@ -17,6 +17,9 @@ importers:
       '@nordhealth/fonts':
         specifier: 3.0.4
         version: 3.0.4
+      '@nordhealth/icons':
+        specifier: 3.15.5
+        version: 3.15.5
       '@nordhealth/themes':
         specifier: 9.0.7
         version: 9.0.7

@@ -6,6 +6,19 @@ import '@nordhealth/components/lib/Checkbox'
 import '@nordhealth/components/lib/Button'
 import '@nordhealth/components/lib/Divider'
 import '@nordhealth/components/lib/Badge'
+import '@nordhealth/components/lib/Icon'
+
+import nordicons from '@nordhealth/icons'
+
+const icons = [
+  nordicons['generic-canine'],
+  nordicons['generic-feline'],
+  nordicons['arrow-right'],
+  nordicons['generic-birds'],
+  nordicons['generic-bug'],
+  nordicons['generic-building'],
+  nordicons['generic-bank'],
+]
 </script>
 
 <template>
@@ -18,6 +31,19 @@ import '@nordhealth/components/lib/Badge'
         <nord-button variant="primary">Create account</nord-button>
       </nord-stack>
     </nord-card>
+
+    <nord-divider />
+
+    <h3 class="n:text-h3">Nordicons test</h3>
+    <nord-stack direction="horizontal" gap="m">
+      <nord-icon
+        v-for="icon in icons"
+        :key="icon.title"
+        :name="icon.title"
+        :svg="icon.svg"
+        size="l"
+      />
+    </nord-stack>
 
     <nord-divider />
 
