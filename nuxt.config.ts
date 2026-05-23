@@ -11,6 +11,11 @@ export default defineNuxtConfig({
   compatibilityDate: '2025-07-15',
   devtools: { enabled: true },
   css: ['./assets/main.css'],
+  vue: {
+    compilerOptions: {
+      isCustomElement: (tag) => tag.startsWith('nord-'),
+    },
+  },
   vite: {
     plugins: [
       tailwindcss()

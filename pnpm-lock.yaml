@@ -8,6 +8,9 @@ importers:
 
   .:
     dependencies:
+      '@nordhealth/components':
+        specifier: 4.20.0
+        version: 4.20.0
       '@nordhealth/css':
         specifier: 5.0.8
         version: 5.0.8(@nordhealth/fonts@3.0.4)(tailwindcss@4.3.0)
@@ -538,6 +541,15 @@ packages:
     cpu: [x64]
     os: [win32]
 
+  '@floating-ui/core@1.7.5':
+    resolution: {integrity: sha512-1Ih4WTWyw0+lKyFMcBHGbb5U5FtuHJuujoyyr5zTaWS5EYMeT6Jb2AuDeftsCsEuchO+mM2ij5+q9crhydzLhQ==}
+
+  '@floating-ui/dom@1.7.6':
+    resolution: {integrity: sha512-9gZSAI5XM36880PPMm//9dfiEngYoC6Am2izES1FF406YFsjvyBMmeJ2g4SAju3xWwtuynNRFL2s9hgxpLI5SQ==}
+
+  '@floating-ui/utils@0.2.11':
+    resolution: {integrity: sha512-RiB/yIh78pcIxl6lLMG0CgBXAZ2Y0eVHqMPYugu+9U0AeT6YBeiJpf7lbdJNIugFP5SIjwNRgo4DhR1Qxi26Gg==}
+
   '@ioredis/commands@1.5.1':
     resolution: {integrity: sha512-JH8ZL/ywcJyR9MmJ5BNqZllXNZQqQbnVZOqpPQqE1vHiFgAw4NHbvE0FOduNU8IX9babitBT46571OnPTT0Zcw==}
 
@@ -574,6 +586,12 @@ packages:
   '@kwsites/promise-deferred@1.1.1':
     resolution: {integrity: sha512-GaHYm+c0O9MjZRu0ongGBRbinu8gVAMd2UZjji6jVmqKtZluZnptXGWhz1E8j8D2HJ3f/yMxKAUC0b+57wncIw==}
 
+  '@lit-labs/ssr-dom-shim@1.6.0':
+    resolution: {integrity: sha512-VHb0ALPMTlgKjM6yIxxoQNnpKyUKLD04VzeQdsiXkMqkvYlAHxq9glGLmgbb889/1GsohSOAjvQYoiBppXFqrQ==}
+
+  '@lit/reactive-element@2.1.2':
+    resolution: {integrity: sha512-pbCDiVMnne1lYUIaYNN5wrwQXDtHaYtg7YEFPeW+hws6U47WeFvISGUWekPGKWOP1ygrs0ef0o1VJMk1exos5A==}
+
   '@mapbox/node-pre-gyp@2.0.3':
     resolution: {integrity: sha512-uwPAhccfFJlsfCxMYTwOdVfOz3xqyj8xYL3zJj8f0pb30tLohnnFPhLuqp4/qoEz8sNxe4SESZedcBojRefIzg==}
     engines: {node: '>=18'}
@@ -597,6 +615,9 @@ packages:
     resolution: {integrity: sha512-oGB+UxlgWcgQkgwo8GcEGwemoTFt3FIO9ababBmaGwXIoBKZ+GTy0pP185beGg7Llih/NSHSV2XAs1lnznocSg==}
     engines: {node: '>= 8'}
 
+  '@nordhealth/components@4.20.0':
+    resolution: {integrity: sha512-aS6pJ1GmaN8eRHDiLFNEi+VwEKpp1ZoYi3k4csustpDnG1rebY69ZkBud2RDNIsxEYjF63VC5P9rZZe2TjDYLQ==}
+
   '@nordhealth/css@5.0.8':
     resolution: {integrity: sha512-WL2Vb/iLb7CoIaXhiEImrAByeWR3vpeGJQG6XWuzVOVvGZu7Dq1TMhk7GYk+O6K7pxrwE/kk6JVy//l+XW8I1A==}
     peerDependencies:
@@ -610,6 +631,9 @@ packages:
 
   '@nordhealth/fonts@3.0.4':
     resolution: {integrity: sha512-NDQEwCVGPl6m4lIkjkRLSnBsw8ebnmurRT38WjKsBcgn7n9mBwv0MDZtiRYnnjxaW3dGG0Bc2eQZLEgd2ttRpQ==}
+
+  '@nordhealth/icons@3.15.5':
+    resolution: {integrity: sha512-N7qA/ZwOL9k+xjWRU1nl+fKls6uGIIV/l2LNZVjse4tkKQriYmYMp92hi1urAIDbSIeeYT8L79xlEbkvvP/9Og==}
 
   '@nordhealth/themes@9.0.7':
     resolution: {integrity: sha512-D/4ADvh4vCVOdoTGfGmglcOAt6zSAL7uofacUcPB+dWzcEUEO1C+yexMjCIw1c9k/9XP2cRSv4MIl9aMmvySLQ==}
@@ -1479,6 +1503,9 @@ packages:
 
   '@types/resolve@1.20.2':
     resolution: {integrity: sha512-60BCwRFOZCQhDncwQdxxeOEEkbc5dIMccYLwbxsS4TUNeVECQ/pBJ0j09mrHOl/JJvpRPGwO9SvE4nR2Nb/a4Q==}
+
+  '@types/trusted-types@2.0.7':
+    resolution: {integrity: sha512-ScaPdn1dQczgbl0QFTeTOmVHFULt394XJgOQNoyVhZ6r2vLnMLJfBPd53SB52T/3G36VI1/g2MZaX0cwDuXsfw==}
 
   '@unhead/vue@2.1.15':
     resolution: {integrity: sha512-SSByXfEjhzPn8gXdEdgpYqpLMPSkLUH2HVE0GxZfOtNsJ0GgOHQs0g9T67ZZ1z0kTELLKdtOtYrzrbv9+ffF7g==}
@@ -2500,6 +2527,15 @@ packages:
     resolution: {integrity: sha512-kfz4C0OrC6IpaVMtYDJtf6PFjurxe9NBBoDAh/o2p587INryFOO4DQ9OetbCdDrWFt1m1CJKvYrzkGsuPHw8nQ==}
     hasBin: true
 
+  lit-element@4.2.2:
+    resolution: {integrity: sha512-aFKhNToWxoyhkNDmWZwEva2SlQia+jfG0fjIWV//YeTaWrVnOxD89dPKfigCUspXFmjzOEUQpOkejH5Ly6sG0w==}
+
+  lit-html@3.3.3:
+    resolution: {integrity: sha512-el8M6jK2o3RXBnrSHX3ZKrsN8zEV63pSExTO1wYJz7QndGYZ8353e2a5PPX+qHe2aGayfnchQmkAojaWAREOIA==}
+
+  lit@3.3.3:
+    resolution: {integrity: sha512-fycuvZg/hkpozL00lm1pEJH5nN/lr9ZXd6mJI2HSN4+Bzc+LDNdEApJ6HFbPkdFNHLvOplIIuJvxkS4XUxqirw==}
+
   local-pkg@1.2.1:
     resolution: {integrity: sha512-++gUqRDEvcnN6Zhqrr+y/CkVEHhlrR96vZn3nZZPYzMcBUyBtTKzB9NadClFIsIVSsu+3i9tfk/erqy9kAmt7Q==}
     engines: {node: '>=14'}
@@ -2990,6 +3026,9 @@ packages:
     resolution: {integrity: sha512-cdGef/drWFoydD1JsMzuFf8100nZl+GT+yacc2bEced5f9Rjk4z+WtFUTBu9PhOi9j/jfmBPu0mMEY4wIdAF8A==}
     engines: {node: '>= 0.6.0'}
 
+  qr@0.4.2:
+    resolution: {integrity: sha512-wCv4rt7IcPNGT0J8JiTBHx7YrZzYuzpof38y/MFYd5Sp7OTyAFYL1e110In8PrAG/ffIOVl1ha3joJ2zpYxKMQ==}
+
   quansync@0.2.11:
     resolution: {integrity: sha512-AifT7QEbW9Nri4tAwR5M/uzpBuqfZf+zwaEM/QkzEjj7NBuFD2rBuy0K3dE+8wltbezDV7JMA0WfnCPYRSYbXA==}
 
@@ -3286,6 +3325,9 @@ packages:
   tinyglobby@0.2.16:
     resolution: {integrity: sha512-pn99VhoACYR8nFHhxqix+uvsbXineAasWm5ojXoN8xEwK5Kd3/TrhNn1wByuD52UxWRLy8pu+kRMniEi6Eq9Zg==}
     engines: {node: '>=12.0.0'}
+
+  tinykeys@1.4.0:
+    resolution: {integrity: sha512-ysnVd2E4nWbNXIbHaUidcKGLTmNimqP0hdpsD0Ph5hPJ84ntCF6PHj+Jg3im9nZt9/hNsBg/E6m1psHc2KaPnQ==}
 
   to-regex-range@5.0.1:
     resolution: {integrity: sha512-65P7iz6X5yEr1cwcgvQxbbIw7Uk3gOy5dIdtZ4rDveLqhrdJP+Li/Hx6tyK0NEb+2GCyneCMJiGqrADCSNk8sQ==}
@@ -4086,6 +4128,17 @@ snapshots:
   '@esbuild/win32-x64@0.28.0':
     optional: true
 
+  '@floating-ui/core@1.7.5':
+    dependencies:
+      '@floating-ui/utils': 0.2.11
+
+  '@floating-ui/dom@1.7.6':
+    dependencies:
+      '@floating-ui/core': 1.7.5
+      '@floating-ui/utils': 0.2.11
+
+  '@floating-ui/utils@0.2.11': {}
+
   '@ioredis/commands@1.5.1': {}
 
   '@isaacs/cliui@8.0.2':
@@ -4133,6 +4186,12 @@ snapshots:
 
   '@kwsites/promise-deferred@1.1.1': {}
 
+  '@lit-labs/ssr-dom-shim@1.6.0': {}
+
+  '@lit/reactive-element@2.1.2':
+    dependencies:
+      '@lit-labs/ssr-dom-shim': 1.6.0
+
   '@mapbox/node-pre-gyp@2.0.3':
     dependencies:
       consola: 3.4.2
@@ -4165,6 +4224,14 @@ snapshots:
       '@nodelib/fs.scandir': 2.1.5
       fastq: 1.20.1
 
+  '@nordhealth/components@4.20.0':
+    dependencies:
+      '@floating-ui/dom': 1.7.6
+      '@nordhealth/icons': 3.15.5
+      lit: 3.3.3
+      qr: 0.4.2
+      tinykeys: 1.4.0
+
   '@nordhealth/css@5.0.8(@nordhealth/fonts@3.0.4)(tailwindcss@4.3.0)':
     dependencies:
       '@types/clean-css': 4.2.11
@@ -4173,6 +4240,8 @@ snapshots:
       tailwindcss: 4.3.0
 
   '@nordhealth/fonts@3.0.4': {}
+
+  '@nordhealth/icons@3.15.5': {}
 
   '@nordhealth/themes@9.0.7': {}
 
@@ -4996,6 +5065,8 @@ snapshots:
       undici-types: 7.24.6
 
   '@types/resolve@1.20.2': {}
+
+  '@types/trusted-types@2.0.7': {}
 
   '@unhead/vue@2.1.15(vue@3.5.34)':
     dependencies:
@@ -6048,6 +6119,22 @@ snapshots:
     transitivePeerDependencies:
       - srvx
 
+  lit-element@4.2.2:
+    dependencies:
+      '@lit-labs/ssr-dom-shim': 1.6.0
+      '@lit/reactive-element': 2.1.2
+      lit-html: 3.3.3
+
+  lit-html@3.3.3:
+    dependencies:
+      '@types/trusted-types': 2.0.7
+
+  lit@3.3.3:
+    dependencies:
+      '@lit/reactive-element': 2.1.2
+      lit-element: 4.2.2
+      lit-html: 3.3.3
+
   local-pkg@1.2.1:
     dependencies:
       mlly: 1.8.2
@@ -6771,6 +6858,8 @@ snapshots:
 
   process@0.11.10: {}
 
+  qr@0.4.2: {}
+
   quansync@0.2.11: {}
 
   queue-microtask@1.2.3: {}
@@ -7101,6 +7190,8 @@ snapshots:
     dependencies:
       fdir: 6.5.0(picomatch@4.0.4)
       picomatch: 4.0.4
+
+  tinykeys@1.4.0: {}
 
   to-regex-range@5.0.1:
     dependencies:

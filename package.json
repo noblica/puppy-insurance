@@ -10,6 +10,7 @@
     "postinstall": "nuxt prepare"
   },
   "dependencies": {
+    "@nordhealth/components": "4.20.0",
     "@nordhealth/css": "5.0.8",
     "@nordhealth/fonts": "3.0.4",
     "@nordhealth/themes": "9.0.7",
