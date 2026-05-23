@@ -1,3 +1,13 @@
+<script setup>
+import '@nordhealth/components/lib/Card'
+import '@nordhealth/components/lib/Stack'
+import '@nordhealth/components/lib/Input'
+import '@nordhealth/components/lib/Checkbox'
+import '@nordhealth/components/lib/Button'
+import '@nordhealth/components/lib/Divider'
+import '@nordhealth/components/lib/Badge'
+</script>
+
 <template>
   <main class="n:bg-default n:p-l" style="min-height: 100vh;">
     <nord-card heading="Nordhealth Web Components">
@@ -27,12 +37,3 @@
   </main>
 </template>
 
-<script setup>
-import '@nordhealth/components/lib/Card'
-import '@nordhealth/components/lib/Stack'
-import '@nordhealth/components/lib/Input'
-import '@nordhealth/components/lib/Checkbox'
-import '@nordhealth/components/lib/Button'
-import '@nordhealth/components/lib/Divider'
-import '@nordhealth/components/lib/Badge'
-</script>
