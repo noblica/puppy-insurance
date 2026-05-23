@@ -14,8 +14,11 @@ importers:
       '@nordhealth/fonts':
         specifier: 3.0.4
         version: 3.0.4
+      '@nordhealth/themes':
+        specifier: 9.0.7
+        version: 9.0.7
       '@nordhealth/tokens':
-        specifier: ^8.0.5
+        specifier: 8.0.5
         version: 8.0.5
       '@tailwindcss/vite':
         specifier: 4.3.0
@@ -607,6 +610,9 @@ packages:
 
   '@nordhealth/fonts@3.0.4':
     resolution: {integrity: sha512-NDQEwCVGPl6m4lIkjkRLSnBsw8ebnmurRT38WjKsBcgn7n9mBwv0MDZtiRYnnjxaW3dGG0Bc2eQZLEgd2ttRpQ==}
+
+  '@nordhealth/themes@9.0.7':
+    resolution: {integrity: sha512-D/4ADvh4vCVOdoTGfGmglcOAt6zSAL7uofacUcPB+dWzcEUEO1C+yexMjCIw1c9k/9XP2cRSv4MIl9aMmvySLQ==}
 
   '@nordhealth/tokens@8.0.5':
     resolution: {integrity: sha512-zW89ikbRt4yasEm676G+FD2+3fiyj/CpDMS89GLfEAXOEo+JqlEwZvAHJtjczkgh+HvP1UQF+vb39oQ//8A0Mw==}
@@ -4167,6 +4173,8 @@ snapshots:
       tailwindcss: 4.3.0
 
   '@nordhealth/fonts@3.0.4': {}
+
+  '@nordhealth/themes@9.0.7': {}
 
   '@nordhealth/tokens@8.0.5': {}
 

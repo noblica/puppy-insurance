@@ -1,5 +1,6 @@
 @import "tailwindcss";
 @import "@nordhealth/css/tailwind";
+@import "@nordhealth/themes/lib/vet.css";
 
 html {
   font-family: var(--n-font-family), sans-serif;

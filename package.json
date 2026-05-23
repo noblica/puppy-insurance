@@ -12,7 +12,8 @@
   "dependencies": {
     "@nordhealth/css": "5.0.8",
     "@nordhealth/fonts": "3.0.4",
-    "@nordhealth/tokens": "^8.0.5",
+    "@nordhealth/themes": "9.0.7",
+    "@nordhealth/tokens": "8.0.5",
     "@tailwindcss/vite": "4.3.0",
     "nuxt": "3.21.2",
     "tailwindcss": "4.3.0",
