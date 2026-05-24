@@ -49,7 +49,9 @@ const onSubmit = () => {
 
 <template>
   <nord-card padding="l" className="n:w-full n:max-w-[440px]">
-    <h1 slot="header" class="n-typescale-l">Sign Up</h1>
+    <nord-stack slot="header">
+      <h1 class="n:text-l">Sign Up for Puppy Insurance</h1>
+    </nord-stack>
     <form 
       novalidate 
       @submit.prevent="onSubmit"
@@ -82,7 +84,6 @@ const onSubmit = () => {
           <nord-button
             slot="end"
             type="button"
-            :aria-label="passwordVisible ? 'Hide password' : 'Show password'"
             :aria-pressed="passwordVisible"
             :disabled="formState === 'submitting'"
             @click="passwordVisible = !passwordVisible"
@@ -90,6 +91,7 @@ const onSubmit = () => {
             <nord-icon
               :name="passwordVisible ? 'interface-edit-off' : 'interface-edit-on'"
             />
+            <nord-visually-hidden>{{ passwordVisible ? 'Hide password' : 'Show password' }}</nord-visually-hidden>
           </nord-button>
         </nord-input>
 
@@ -143,7 +145,6 @@ const onSubmit = () => {
           <nord-button
             slot="end"
             type="button"
-            :aria-label="confirmPasswordVisible ? 'Hide password' : 'Show password'"
             :aria-pressed="confirmPasswordVisible"
             :disabled="formState === 'submitting'"
             @click="confirmPasswordVisible = !confirmPasswordVisible"
@@ -151,6 +152,7 @@ const onSubmit = () => {
             <nord-icon
               :name="confirmPasswordVisible ? 'interface-edit-off' : 'interface-edit-on'"
             />
+            <nord-visually-hidden>{{ confirmPasswordVisible ? 'Hide confirm password' : 'Show confirm password' }}</nord-visually-hidden>
           </nord-button>
         </nord-input>
           </nord-stack>
@@ -186,6 +188,7 @@ const onSubmit = () => {
         <nord-button 
           type="submit" 
           variant="primary"
+          expand
           :loading="formState === 'submitting'"
         >
           Create account

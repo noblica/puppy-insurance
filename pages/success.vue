@@ -21,18 +21,22 @@ const goHome = () => {
 </script>
 
 <template>
-  <nord-card className="n:w-full n:max-w-[440px]">
-   <h1 slot="header" class="n-typescale-l">Puppy Insurance</h1>
-    <nord-stack>
-      <nord-icon
-        name="interface-checked-circle"
-        size="xl"
-        class="n:text-success"
-      />
-      <p>Your account has been created successfully.</p>
-      <nord-button variant="primary" @click="goHome">
-        Go to home
-      </nord-button>
+  <nord-card padding="l" className="n:w-full n:max-w-[440px]">
+    <nord-stack slot="header">
+   <h1 class="n:text-l">Account created</h1>
+   </nord-stack>
+    <nord-stack gap="xl">
+      <nord-stack align-items="center" gap="m">
+       <nord-icon
+         name="interface-checked-circle"
+         size="xl"
+         class="n:text-success"
+       />
+       <p>Your account has been created successfully.</p>
+       </nord-stack>
+       <nord-button variant="primary" expand @click="goHome">
+         Go to home
+       </nord-button>
     </nord-stack>
   </nord-card>
 </template>
