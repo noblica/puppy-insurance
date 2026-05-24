@@ -4,6 +4,11 @@ import tailwindcss from "@tailwindcss/vite"
 export default defineNuxtConfig({
   modules: ['@regle/nuxt'],
   ssr: false,
+  app: {
+    head: {
+      htmlAttrs: { lang: 'en' },
+    },
+  },
   hooks: {
     'prerender:routes'({ routes }) {
       routes.clear() // Do not generate any routes (except the defaults)

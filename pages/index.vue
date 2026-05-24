@@ -60,6 +60,7 @@ const onSubmit = () => {
           type="email"
           label="Email"
           placeholder="you@example.com"
+          autocomplete="email"
           :error="r$.email.$errors[0]"
           @blur="r$.email.$touch()"
         />
@@ -68,10 +69,11 @@ const onSubmit = () => {
           label="Password"
           :type="passwordVisible ? 'text' : 'password'"
           placeholder="Enter your password"
+          autocomplete="new-password"
           :error="r$.password.$dirty && r$.password.$invalid ? ' ' : undefined"
           :class="r$.password.$errors[0] ? 'n:border-danger' : null"
           @blur="r$.password.$touch()"
-        >
+          >
           <nord-button
             slot="end"
             type="button"
@@ -86,7 +88,7 @@ const onSubmit = () => {
           </nord-button>
         </nord-input>
 
-        <div v-if="r$.password.$dirty" class="n:flex n:flex-col n:gap-2xs">
+        <div v-if="r$.password.$dirty" role="status" aria-live="polite" class="n:flex n:flex-col n:gap-2xs">
 
           <div :class="`n:flex n:items-center n:gap-2xs n:text-s ${r$.password.$rules.minLength.$valid ? 'n:text-success' : 'n:text-danger'}`">
             <nord-icon
@@ -127,6 +129,7 @@ const onSubmit = () => {
           v-model='r$.$value.confirmPassword'
           label="Confirm password"
           :type="confirmPasswordVisible ? 'text' : 'password'"
+          autocomplete="new-password"
           :error="r$.confirmPassword.$errors[0]"
           @blur="r$.confirmPassword.$touch()"
         >

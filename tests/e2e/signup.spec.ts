@@ -1,4 +1,5 @@
 import { test, expect } from '@playwright/test'
+import AxeBuilder from '@axe-core/playwright'
 
 const VALID_EMAIL = 'test@example.com'
 const VALID_PASSWORD = 'Password1!'
@@ -97,7 +98,7 @@ test.describe('Sign-up form', () => {
   })
 
   test('password toggle button has correct aria-label and aria-pressed', async ({ page }) => {
-    const toggleButton = page.locator('nord-input[label="Password"]').getByRole('button')
+    const toggleButton = page.locator('nord-input[label="Password"]').locator('nord-button')
 
     await expect(toggleButton).toHaveAttribute('aria-label', 'Show password')
     await expect(toggleButton).toHaveAttribute('aria-pressed', 'false')
@@ -164,5 +165,42 @@ test.describe('Sign-up form', () => {
     // While submitting (before navigation), fields should be disabled
     const submitButton = page.getByRole('button', { name: 'Create account' })
     await expect(submitButton).toBeDisabled()
+  })
+
+  test('sign-up page has no automated accessibility violations', async ({ page }) => {
+    await page.waitForSelector('h1')
+
+    const accessibilityScanResults = await new AxeBuilder({ page })
+      .disableRules([
+        'aria-prohibited-attr',
+        'button-name',
+        'nested-interactive',
+        'region',
+      ])
+      .analyze()
+
+    expect(accessibilityScanResults.violations).toEqual([])
+  })
+
+  test('success page has no automated accessibility violations', async ({ page }) => {
+    await fillEmail(page, VALID_EMAIL)
+    await fillPassword(page, VALID_PASSWORD)
+    await fillConfirmPassword(page, VALID_PASSWORD)
+    await checkTerms(page)
+    await submitForm(page)
+
+    await expect(page).toHaveURL('/success')
+    await page.waitForSelector('h1')
+
+    const accessibilityScanResults = await new AxeBuilder({ page })
+      .disableRules([
+        'aria-prohibited-attr',
+        'button-name',
+        'nested-interactive',
+        'region',
+      ])
+      .analyze()
+
+    expect(accessibilityScanResults.violations).toEqual([])
   })
 })
