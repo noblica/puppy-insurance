@@ -22,7 +22,7 @@ const goHome = () => {
 
 <template>
   <nord-card className="n:w-full n:max-w-[440px]">
-   <h1 slot="header">Puppy Insurance</h1>
+   <h1 slot="header" class="n-typescale-l">Puppy Insurance</h1>
     <nord-stack>
       <nord-icon
         name="interface-checked-circle"

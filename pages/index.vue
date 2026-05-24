@@ -49,7 +49,7 @@ const onSubmit = () => {
 
 <template>
   <nord-card padding="l" className="n:w-full n:max-w-[440px]">
-    <h1 slot="header">Sign Up</h1>
+    <h1 slot="header" class="n-typescale-l">Sign Up</h1>
     <form 
       novalidate 
       @submit.prevent="onSubmit"
@@ -62,6 +62,7 @@ const onSubmit = () => {
           label="Email"
           placeholder="you@example.com"
           autocomplete="email"
+          expand
           :error="r$.email.$errors[0]"
           :disabled="formState === 'submitting'"
           @blur="r$.email.$touch()"
@@ -72,6 +73,7 @@ const onSubmit = () => {
           :type="passwordVisible ? 'text' : 'password'"
           placeholder="Enter your password"
           autocomplete="new-password"
+          expand
           :error="r$.password.$dirty && r$.password.$invalid ? r$.password.$errors[0] : undefined"
           :disabled="formState === 'submitting'"
           @input="r$.password.$touch()"
@@ -93,7 +95,7 @@ const onSubmit = () => {
 
         <div v-if="r$.password.$dirty" role="status" aria-live="polite" class="n:flex n:flex-col n:gap-2xs">
 
-          <div :class="`n:flex n:items-center n:gap-2xs n:text-s ${r$.password.$rules.minLength.$valid ? 'n:text-success' : 'n:text-danger'}`">
+          <div :class="`n:flex n:items-center n:gap-xs n:text-s ${r$.password.$rules.minLength.$valid ? 'n:text-success' : 'n:text-error'}`">
             <nord-icon
               :name="r$.password.$rules.minLength.$valid ? 'interface-checked-small' : 'interface-close-small'"
               class="n:shrink-0"
@@ -102,7 +104,7 @@ const onSubmit = () => {
             <span>At least 8 characters</span>
           </div>
 
-          <div :class="`n:flex n:items-center n:gap-2xs n:text-s ${r$.password.$rules.containsUppercase.$valid ? 'n:text-success' : 'n:text-danger'}`">
+          <div :class="`n:flex n:items-center n:gap-xs n:text-s ${r$.password.$rules.containsUppercase.$valid ? 'n:text-success' : 'n:text-error'}`">
             <nord-icon
               :name="r$.password.$rules.containsUppercase.$valid ? 'interface-checked-small' : 'interface-close-small'"
               class="n:shrink-0"
@@ -110,7 +112,7 @@ const onSubmit = () => {
             />
             <span>Must contain an uppercase letter</span>
           </div>
-          <div :class="`n:flex n:items-center n:gap-2xs n:text-s ${r$.password.$rules.containsNumber.$valid ? 'n:text-success' : 'n:text-danger'}`">
+          <div :class="`n:flex n:items-center n:gap-xs n:text-s ${r$.password.$rules.containsNumber.$valid ? 'n:text-success' : 'n:text-error'}`">
             <nord-icon
               :name="r$.password.$rules.containsNumber.$valid ? 'interface-checked-small' : 'interface-close-small'"
               class="n:shrink-0"
@@ -118,7 +120,7 @@ const onSubmit = () => {
             />
             <span>Must contain a number</span>
           </div>
-          <div :class="`n:flex n:items-center n:gap-2xs n:text-s ${r$.password.$rules.containsSpecialCharacter.$valid ? 'n:text-success' : 'n:text-danger'}`">
+          <div :class="`n:flex n:items-center n:gap-xs n:text-s ${r$.password.$rules.containsSpecialCharacter.$valid ? 'n:text-success' : 'n:text-error'}`">
             <nord-icon
               :name="r$.password.$rules.containsSpecialCharacter.$valid ? 'interface-checked-small' : 'interface-close-small'"
               class="n:shrink-0"
@@ -133,6 +135,7 @@ const onSubmit = () => {
           label="Confirm password"
           :type="confirmPasswordVisible ? 'text' : 'password'"
           autocomplete="new-password"
+          expand
           :error="r$.confirmPassword.$errors[0]"
           :disabled="formState === 'submitting'"
           @blur="r$.confirmPassword.$touch()"
@@ -157,9 +160,12 @@ const onSubmit = () => {
           v-model="r$.$value.marketingConsent"
           type="checkbox"
           name="marketingConsent"
-          label="Receive occasional product updates and announcements"
           :disabled="formState === 'submitting'"
-        />
+        >
+          <span slot="label" class="n:text-s">
+            Receive occasional product updates and announcements
+          </span>
+        </nord-checkbox>
 
         <nord-checkbox
           v-model="r$.$value.termsAccepted"
@@ -168,7 +174,7 @@ const onSubmit = () => {
           :error="r$.termsAccepted.$errors[0]"
           :disabled="formState === 'submitting'"
         >
-          <span slot="label">
+          <span slot="label" class="n:text-s">
             I accept the
             <a href="javascript:void(0)" class="n:text-accent">Terms of Service</a>
             and
