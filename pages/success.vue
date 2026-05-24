@@ -9,13 +9,13 @@ useHead({ title: 'Account created | Puppy Insurance' })
 </script>
 
 <template>
-  <nord-card style="width: 100%; max-width: 440px;">
+  <nord-card className="n:w-full n:max-w-[440px]">
    <h1 slot="header">Puppy Insurance</h1>
     <nord-stack>
       <nord-icon
         name="interface-checked-circle"
         size="xl"
-        style="color: var(--n-color-status-success);"
+        class="n:text-success"
       />
       <p>Your account has been created successfully.</p>
       <NuxtLink to="/">
