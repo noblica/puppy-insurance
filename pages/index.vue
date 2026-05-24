@@ -46,13 +46,7 @@ const onSubmit = () => {
 
 <template>
   <nord-card className="n:w-full n:max-w-[440px]">
-    <div class="n:flex n:flex-col n:items-center n:text-center n:gap-xs n:pb-l n:border-b n:border-default n:mb-xs">
-      <div class="n:flex n:items-center n:gap-xs">
-        <nord-icon name="generic-pet-paw" size="xl" />
-        <span class="n:text-l n:font-weight-heading n:text-default">Puppy Insurance</span>
-      </div>
-      <p class="n:caption n:m-0 n:text-s">Sign Up</p>
-    </div>
+    <h1 slot="header">Sign Up</h1>
     <form novalidate @submit.prevent="onSubmit">
       <nord-stack>
         <nord-input
@@ -159,9 +153,9 @@ const onSubmit = () => {
         >
           <span slot="label">
             I accept the
-            <a href="#" style="color: var(--n-color-accent);">Terms of Service</a>
+            <a href="#" class="n:text-accent">Terms of Service</a>
             and
-            <a href="#" style="color: var(--n-color-accent);">Privacy Policy</a>
+            <a href="#" class="n:text-accent">Privacy Policy</a>
           </span>
         </nord-checkbox>
 
