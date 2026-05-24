@@ -22,7 +22,7 @@ const { r$ } = useRegle(
   {
     email: { required, email },
     // `and(required, ...)` prevents built-in rules from passing on empty values
-    password: { required, minLength: and(required, minLength(8)), containsUppercase: and(required, containsUppercase()), containsNumber, containsSpecialCharacter: and(required, containsSpecialCharacter()) },
+    password: { required, minLength: and(required, minLength(8)), containsUppercase: and(required, containsUppercase()), containsNumber: and(required, containsNumber), containsSpecialCharacter: and(required, containsSpecialCharacter()) },
     confirmPassword: { required, sameAs: sameAs(() => form.password, 'Password') },
     termsAccepted: { checked },
   },
@@ -48,13 +48,14 @@ const onSubmit = () => {
 </script>
 
 <template>
-  <nord-card className="n:w-full n:max-w-[440px]">
+  <nord-card padding="l" className="n:w-full n:max-w-[440px]">
     <h1 slot="header">Sign Up</h1>
     <form 
       novalidate 
       @submit.prevent="onSubmit"
       >
-      <nord-stack>
+      <nord-stack gap="xl">
+        <nord-stack>
         <nord-input
           v-model='r$.$value.email'
           type="email"
@@ -62,6 +63,7 @@ const onSubmit = () => {
           placeholder="you@example.com"
           autocomplete="email"
           :error="r$.email.$errors[0]"
+          :disabled="formState === 'submitting'"
           @blur="r$.email.$touch()"
         />
         <nord-input
@@ -70,8 +72,9 @@ const onSubmit = () => {
           :type="passwordVisible ? 'text' : 'password'"
           placeholder="Enter your password"
           autocomplete="new-password"
-          :error="r$.password.$dirty && r$.password.$invalid ? ' ' : undefined"
-          :class="r$.password.$errors[0] ? 'n:border-danger' : null"
+          :error="r$.password.$dirty && r$.password.$invalid ? r$.password.$errors[0] : undefined"
+          :disabled="formState === 'submitting'"
+          @input="r$.password.$touch()"
           @blur="r$.password.$touch()"
           >
           <nord-button
@@ -131,6 +134,7 @@ const onSubmit = () => {
           :type="confirmPasswordVisible ? 'text' : 'password'"
           autocomplete="new-password"
           :error="r$.confirmPassword.$errors[0]"
+          :disabled="formState === 'submitting'"
           @blur="r$.confirmPassword.$touch()"
         >
           <nord-button
@@ -146,12 +150,15 @@ const onSubmit = () => {
             />
           </nord-button>
         </nord-input>
+          </nord-stack>
 
+          <nord-stack>
         <nord-checkbox
           v-model="r$.$value.marketingConsent"
           type="checkbox"
           name="marketingConsent"
           label="Receive occasional product updates and announcements"
+          :disabled="formState === 'submitting'"
         />
 
         <nord-checkbox
@@ -159,14 +166,16 @@ const onSubmit = () => {
           type="checkbox"
           name="termsAccepted"
           :error="r$.termsAccepted.$errors[0]"
+          :disabled="formState === 'submitting'"
         >
           <span slot="label">
             I accept the
-            <a href="#" class="n:text-accent">Terms of Service</a>
+            <a href="javascript:void(0)" class="n:text-accent">Terms of Service</a>
             and
-            <a href="#" class="n:text-accent">Privacy Policy</a>
+            <a href="javascript:void(0)" class="n:text-accent">Privacy Policy</a>
           </span>
         </nord-checkbox>
+        </nord-stack>
 
         <nord-button 
           type="submit" 
