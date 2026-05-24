@@ -1,4 +1,6 @@
 <script setup lang="ts">
+import { required, email, minLength } from '@regle/rules';
+
 import '@nordhealth/components/lib/Card'
 import '@nordhealth/components/lib/Stack'
 import '@nordhealth/components/lib/Input'
@@ -15,44 +17,25 @@ const uncheckedIcon = nordicons['interface-close-small']
 
 useHead({ title: 'Sign up | Puppy Insurance' })
 
-const {
-  email,
-  password,
-  confirmPassword,
-  marketingConsent,
-  termsAccepted,
-  passwordVisible,
-  confirmPasswordVisible,
-  submitting,
-  errors,
-  passwordChecks,
-  emailRef,
-  passwordRef,
-  confirmPasswordRef,
-  termsRef,
-  onEmailBlur,
-  onPasswordBlur,
-  onConfirmPasswordBlur,
-  onEmailInput,
-  onPasswordInput,
-  onConfirmPasswordInput,
-  onMarketingChange,
-  onTermsChange,
-  togglePasswordVisibility,
-  toggleConfirmPasswordVisibility,
-  onSubmit,
-} = useSignUpForm()
+const { r$ } = useRegle(
+  { email: '', password: '', confirmPassword: ''},
+  { email: {required, email}, password: {required}, confirmPassword: {required} },
+)
 
-const passwordCheckLabels = {
-  minLength: 'At least 8 characters',
-  hasUppercase: 'At least one uppercase letter',
-  hasNumber: 'At least one number',
-  hasSpecial: 'At least one special character',
+const passwordVisible = ref(false);
+const confirmPasswordVisible = ref(false);
+const submitting = ref(false);
+
+const onSubmit = (event) => {
+  submitting.value = true;
+  console.log(event, submitting.value);
+  setTimeout(() => submitting.value = false, 3000)
 }
+
 </script>
 
 <template>
-  <nord-card style="width: 100%; max-width: 440px;">
+  <nord-card className="n:w-full n:max-w-[440px]">
     <div class="n:flex n:flex-col n:items-center n:text-center n:gap-xs n:pb-l n:border-b n:border-default n:mb-xs">
       <div class="n:flex n:items-center n:gap-xs">
         <PawIcon :width="30" :height="30" class="n:fill-accent" />
@@ -62,32 +45,22 @@ const passwordCheckLabels = {
     </div>
     <form novalidate @submit.prevent="onSubmit">
       <nord-stack>
-        <nord-input
-          :ref="(el: any) => { emailRef.value = el }"
-          v-model="email"
-          name="email"
-          label="Email"
-          type="email"
-          placeholder="you@example.com"
-          :required="true"
-          :error="errors.email || undefined"
-          :disabled="submitting"
-          @blur="onEmailBlur"
-          @input="onEmailInput"
+          <nord-input
+            v-model='r$.$value.email'
+            type="email"
+            label="Email"
+            placeholder="you@example.com"
         />
-
+          <ul>
+            <li v-for="error of r$.email.$errors" :key='error'>
+              {{ error }}
+            </li>
+          </ul>
         <nord-input
-          :ref="(el: any) => { passwordRef.value = el }"
-          v-model="password"
-          name="password"
+          v-model='r$.$value.password'
           label="Password"
           :type="passwordVisible ? 'text' : 'password'"
           placeholder="Enter your password"
-          :required="true"
-          :error="errors.password || undefined"
-          :disabled="submitting"
-          @blur="onPasswordBlur"
-          @input="onPasswordInput"
         >
           <nord-button
             slot="end"
@@ -95,7 +68,7 @@ const passwordCheckLabels = {
             :aria-label="passwordVisible ? 'Hide password' : 'Show password'"
             :aria-pressed="passwordVisible"
             :disabled="submitting"
-            @click="togglePasswordVisibility"
+            @click="passwordVisible = !passwordVisible"
           >
             <nord-icon
               :name="passwordVisible ? eyeOffIcon.title : eyeOnIcon.title"
@@ -104,37 +77,12 @@ const passwordCheckLabels = {
           </nord-button>
         </nord-input>
 
-        <ul
-          v-if="password.length > 0"
-          style="list-style: none; padding: 0; margin: 0; display: flex; flex-direction: column; gap: var(--n-space-xs);"
-        >
-          <li
-            v-for="(isMet, key) in passwordChecks"
-            :key="key"
-            style="display: flex; align-items: center; gap: var(--n-space-xs); font-size: var(--n-font-size-s);"
-            :style="{ color: isMet ? 'var(--n-color-status-success)' : 'var(--n-color-text-weaker)' }"
-          >
-            <nord-icon
-              size="s"
-              :name="isMet ? checkedIcon.title : uncheckedIcon.title"
-              :svg="isMet ? checkedIcon.svg : uncheckedIcon.svg"
-            />
-            {{ passwordCheckLabels[key] }}
-          </li>
-        </ul>
 
         <nord-input
-          :ref="(el: any) => { confirmPasswordRef.value = el }"
-          v-model="confirmPassword"
-          name="confirmPassword"
+          v-model='r$.$value.confirmPassword'
           label="Confirm password"
           :type="confirmPasswordVisible ? 'text' : 'password'"
           placeholder="Confirm your password"
-          :required="true"
-          :error="errors.confirmPassword || undefined"
-          :disabled="submitting"
-          @blur="onConfirmPasswordBlur"
-          @input="onConfirmPasswordInput"
         >
           <nord-button
             slot="end"
@@ -142,7 +90,7 @@ const passwordCheckLabels = {
             :aria-label="confirmPasswordVisible ? 'Hide password' : 'Show password'"
             :aria-pressed="confirmPasswordVisible"
             :disabled="submitting"
-            @click="toggleConfirmPasswordVisibility"
+            @click="confirmPasswordVisible = !confirmPasswordVisible"
           >
             <nord-icon
               :name="confirmPasswordVisible ? eyeOffIcon.title : eyeOnIcon.title"
@@ -151,34 +99,30 @@ const passwordCheckLabels = {
           </nord-button>
         </nord-input>
 
-        <nord-checkbox
-          name="marketingConsent"
-          label="Receive occasional product updates and announcements"
-          :checked="marketingConsent"
-          :disabled="submitting"
-          @change="onMarketingChange"
-        />
+        <!-- <nord-checkbox -->
+        <!--   name="marketingConsent" -->
+        <!--   label="Receive occasional product updates and announcements" -->
+        <!-- /> -->
+        <!---->
+        <!-- <nord-checkbox -->
+        <!--   name="termsAccepted" -->
+        <!-- > -->
+        <!--   <span slot="label"> -->
+        <!--     I accept the -->
+        <!--     <a href="#" style="color: var(--n-color-accent);">Terms of Service</a> -->
+        <!--     and -->
+        <!--     <a href="#" style="color: var(--n-color-accent);">Privacy Policy</a> -->
+        <!--   </span> -->
+        <!-- </nord-checkbox> -->
 
-        <nord-checkbox
-          :ref="(el: any) => { termsRef.value = el }"
-          name="termsAccepted"
-          :checked="termsAccepted"
-          :error="errors.termsAccepted || undefined"
-          :disabled="submitting"
-          @change="onTermsChange"
+        <nord-button 
+          type="submit" 
+          variant="primary"
+          :loading="submitting"
         >
-          <span slot="label">
-            I accept the
-            <a href="#" style="color: var(--n-color-accent);">Terms of Service</a>
-            and
-            <a href="#" style="color: var(--n-color-accent);">Privacy Policy</a>
-          </span>
-        </nord-checkbox>
-
-        <nord-button type="submit" variant="primary" :loading="submitting" :disabled="submitting">
           Create account
         </nord-button>
       </nord-stack>
-    </form>
+    </Form>
   </nord-card>
 </template>
