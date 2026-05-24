@@ -1,5 +1,6 @@
 <script setup lang="ts">
-import { required, email, minLength } from '@regle/rules';
+import { createRule } from '@regle/core';
+import { required, email, minLength, containsUppercase, containsSpecialCharacter, sameAs } from '@regle/rules';
 
 import '@nordhealth/components/lib/Card'
 import '@nordhealth/components/lib/Stack'
@@ -17,18 +18,39 @@ const uncheckedIcon = nordicons['interface-close-small']
 
 useHead({ title: 'Sign up | Puppy Insurance' })
 
+const containsNumber = createRule({
+  validator: (value: string | null | undefined) => /\d/.test(value ?? ''),
+  message: 'Must contain a number',
+})
+
+const form = reactive({ email: '', password: '', confirmPassword: '' })
+
 const { r$ } = useRegle(
-  { email: '', password: '', confirmPassword: ''},
-  { email: {required, email}, password: {required}, confirmPassword: {required} },
+  form,
+  {
+    email: { required, email },
+    password: { required, minLength: minLength(8), containsUppercase, containsNumber, containsSpecialCharacter },
+    confirmPassword: { required, sameAs: sameAs(() => form.password, 'Password') },
+  },
+  { autoDirty: false },
 )
 
 const passwordVisible = ref(false);
 const confirmPasswordVisible = ref(false);
 const submitting = ref(false);
 
-const onSubmit = (event) => {
+const passwordChecks = computed(() => ({
+  minLength: r$.$value.password.length >= 8,
+  hasUppercase: /[A-Z]/.test(r$.$value.password),
+  hasNumber: /[0-9]/.test(r$.$value.password),
+  hasSpecial: /[^a-zA-Z0-9]/.test(r$.$value.password),
+}))
+
+const onSubmit = () => {
+  r$.$touch()
+  if (r$.$invalid) return
+
   submitting.value = true;
-  console.log(event, submitting.value);
   setTimeout(() => submitting.value = false, 3000)
 }
 
@@ -45,22 +67,21 @@ const onSubmit = (event) => {
     </div>
     <form novalidate @submit.prevent="onSubmit">
       <nord-stack>
-          <nord-input
-            v-model='r$.$value.email'
-            type="email"
-            label="Email"
-            placeholder="you@example.com"
+        <nord-input
+          v-model='r$.$value.email'
+          type="email"
+          label="Email"
+          placeholder="you@example.com"
+          :error="r$.email.$errors[0]"
+          @blur="r$.email.$touch()"
         />
-          <ul>
-            <li v-for="error of r$.email.$errors" :key='error'>
-              {{ error }}
-            </li>
-          </ul>
         <nord-input
           v-model='r$.$value.password'
           label="Password"
           :type="passwordVisible ? 'text' : 'password'"
           placeholder="Enter your password"
+          :error="r$.password.$dirty ? r$.password.$errors[0] : undefined"
+          @blur="r$.password.$touch()"
         >
           <nord-button
             slot="end"
@@ -76,13 +97,51 @@ const onSubmit = (event) => {
             />
           </nord-button>
         </nord-input>
-
-
+        <div v-if="r$.$value.password" class="n:flex n:flex-col n:gap-2xs">
+          <div class="n:flex n:items-center n:gap-2xs n:text-s">
+            <nord-icon
+              :name="passwordChecks.minLength ? checkedIcon.title : uncheckedIcon.title"
+              :svg="passwordChecks.minLength ? checkedIcon.svg : uncheckedIcon.svg"
+              class="n:shrink-0"
+              size="xs"
+            />
+            <span :class="passwordChecks.minLength ? 'n:text-status-success' : 'n:text-status-danger'">At least 8 characters</span>
+          </div>
+          <div class="n:flex n:items-center n:gap-2xs n:text-s">
+            <nord-icon
+              :name="passwordChecks.hasUppercase ? checkedIcon.title : uncheckedIcon.title"
+              :svg="passwordChecks.hasUppercase ? checkedIcon.svg : uncheckedIcon.svg"
+              class="n:shrink-0"
+              size="xs"
+            />
+            <span :class="passwordChecks.hasUppercase ? 'n:text-status-success' : 'n:text-status-danger'">Must contain an uppercase letter</span>
+          </div>
+          <div class="n:flex n:items-center n:gap-2xs n:text-s">
+            <nord-icon
+              :name="passwordChecks.hasNumber ? checkedIcon.title : uncheckedIcon.title"
+              :svg="passwordChecks.hasNumber ? checkedIcon.svg : uncheckedIcon.svg"
+              class="n:shrink-0"
+              size="xs"
+            />
+            <span :class="passwordChecks.hasNumber ? 'n:text-status-success' : 'n:text-status-danger'">Must contain a number</span>
+          </div>
+          <div class="n:flex n:items-center n:gap-2xs n:text-s">
+            <nord-icon
+              :name="passwordChecks.hasSpecial ? checkedIcon.title : uncheckedIcon.title"
+              :svg="passwordChecks.hasSpecial ? checkedIcon.svg : uncheckedIcon.svg"
+              class="n:shrink-0"
+              size="xs"
+            />
+            <span :class="passwordChecks.hasSpecial ? 'n:text-status-success' : 'n:text-status-danger'">Must contain a special character</span>
+          </div>
+        </div>
         <nord-input
           v-model='r$.$value.confirmPassword'
           label="Confirm password"
           :type="confirmPasswordVisible ? 'text' : 'password'"
           placeholder="Confirm your password"
+          :error="r$.confirmPassword.$errors[0]"
+          @blur="r$.confirmPassword.$touch()"
         >
           <nord-button
             slot="end"
@@ -123,6 +182,6 @@ const onSubmit = (event) => {
           Create account
         </nord-button>
       </nord-stack>
-    </Form>
+    </form>
   </nord-card>
 </template>
