@@ -6,7 +6,7 @@ type TestFixtures = {
 };
 
 const test = base.extend<TestFixtures>({
-  isMobile: async (_, use, testInfo) => {
+  isMobile: async ({}, use, testInfo) => {
     await use(testInfo.project.name.includes("mobile"));
   },
 });
