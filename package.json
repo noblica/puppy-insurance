@@ -7,7 +7,10 @@
     "dev": "nuxt dev",
     "generate": "nuxt generate",
     "preview": "nuxt preview",
-    "postinstall": "nuxt prepare"
+    "postinstall": "nuxt prepare",
+    "test": "vitest run",
+    "test:watch": "vitest",
+    "test:e2e": "playwright test"
   },
   "dependencies": {
     "@nordhealth/components": "4.20.0",
@@ -20,6 +23,14 @@
     "nuxt": "3.21.2",
     "tailwindcss": "4.3.0",
     "vue": "3.5.34",
-    "vue-router": "5.0.7"
+    "vue-router": "5.0.7",
+    "zod": "4.4.3"
+  },
+  "devDependencies": {
+    "@nuxt/test-utils": "4.0.3",
+    "@playwright/test": "1.60.0",
+    "@vue/test-utils": "2.4.10",
+    "happy-dom": "20.9.0",
+    "vitest": "4.1.7"
   }
 }
