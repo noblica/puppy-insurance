@@ -39,7 +39,7 @@ const onSubmit = () => {
   if (r$.$invalid) return
 
   formState.value = 'submitting'
-  setTimeout(() => { formState.value = 'submitted' }, 3000)
+  setTimeout(() => { navigateTo('/success') }, 3000)
 }
 
 </script>
@@ -47,7 +47,10 @@ const onSubmit = () => {
 <template>
   <nord-card className="n:w-full n:max-w-[440px]">
     <h1 slot="header">Sign Up</h1>
-    <form novalidate @submit.prevent="onSubmit">
+    <form 
+      novalidate 
+      @submit.prevent="onSubmit"
+      >
       <nord-stack>
         <nord-input
           v-model='r$.$value.email'
