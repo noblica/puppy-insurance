@@ -1,13 +1,12 @@
 <script setup lang="ts">
-import { createRule } from '@regle/core';
-import { required, email, minLength, containsUppercase, containsSpecialCharacter, sameAs, checked, and } from '@regle/rules';
-
 import '@nordhealth/components/lib/Card'
 import '@nordhealth/components/lib/Stack'
 import '@nordhealth/components/lib/Input'
 import '@nordhealth/components/lib/Checkbox'
 import '@nordhealth/components/lib/Button'
 import '@nordhealth/components/lib/Icon'
+import { createRule } from '@regle/core';
+import { required, email, minLength, containsUppercase, containsSpecialCharacter, sameAs, checked, and } from '@regle/rules';
 
 useHead({ title: 'Sign up | Puppy Insurance' })
 
@@ -32,14 +31,15 @@ const { r$ } = useRegle(
 
 const passwordVisible = ref(false);
 const confirmPasswordVisible = ref(false);
-const submitting = ref(false);
+const formState = ref<'idle' | 'submitted' | 'submitting'>('idle');
 
 const onSubmit = () => {
+  formState.value = 'submitted'
   r$.$touch()
   if (r$.$invalid) return
 
-  submitting.value = true;
-  setTimeout(() => submitting.value = false, 3000)
+  formState.value = 'submitting'
+  setTimeout(() => { formState.value = 'submitted' }, 3000)
 }
 
 </script>
@@ -77,7 +77,7 @@ const onSubmit = () => {
             type="button"
             :aria-label="passwordVisible ? 'Hide password' : 'Show password'"
             :aria-pressed="passwordVisible"
-            :disabled="submitting"
+            :disabled="formState === 'submitting'"
             @click="passwordVisible = !passwordVisible"
           >
             <nord-icon
@@ -135,7 +135,7 @@ const onSubmit = () => {
             type="button"
             :aria-label="confirmPasswordVisible ? 'Hide password' : 'Show password'"
             :aria-pressed="confirmPasswordVisible"
-            :disabled="submitting"
+            :disabled="formState === 'submitting'"
             @click="confirmPasswordVisible = !confirmPasswordVisible"
           >
             <nord-icon
@@ -168,8 +168,7 @@ const onSubmit = () => {
         <nord-button 
           type="submit" 
           variant="primary"
-          :loading="submitting"
-          :disabled="r$.$anyDirty && (r$.$invalid || !r$.$value.termsAccepted)"
+          :loading="formState === 'submitting'"
         >
           Create account
         </nord-button>
