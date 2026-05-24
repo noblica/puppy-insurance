@@ -14,7 +14,10 @@
       <div class="n:absolute n:inset-0 n:bg-gradient-to-b n:from-black/50 n:to-transparent"></div>
     </aside>
 
-    <main id="main-content" class="n:flex n:items-center n:justify-center n:p-m n:bg-default n:w-full n:min-h-full n:s:w-[55%] n:s:min-h-0">
+    <main
+      id="main-content"
+      class="n:flex n:items-center n:justify-center n:p-m n:bg-default n:w-full n:min-h-full n:s:w-[55%] n:s:min-h-0"
+    >
       <slot />
     </main>
   </div>

@@ -11,7 +11,11 @@
     "typecheck": "nuxt typecheck",
     "test": "vitest run",
     "test:watch": "vitest",
-    "test:e2e": "playwright test"
+    "test:e2e": "playwright test",
+    "format": "oxfmt",
+    "format:check": "oxfmt --check",
+    "lint": "oxlint",
+    "lint:fix": "oxlint --fix"
   },
   "dependencies": {
     "@nordhealth/components": "4.20.0",
@@ -34,6 +38,19 @@
     "@playwright/test": "1.60.0",
     "@vue/test-utils": "2.4.10",
     "happy-dom": "20.9.0",
+    "lint-staged": "^15.5.0",
+    "oxfmt": "^0.51.0",
+    "oxlint": "^1.66.0",
+    "simple-git-hooks": "^2.12.1",
     "vitest": "4.1.7"
+  },
+  "simple-git-hooks": {
+    "pre-commit": "pnpm lint-staged"
+  },
+  "lint-staged": {
+    "*": [
+      "oxlint --fix --no-error-on-unmatched-pattern",
+      "oxfmt --no-error-on-unmatched-pattern"
+    ]
   }
 }

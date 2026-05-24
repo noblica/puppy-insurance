@@ -74,10 +74,8 @@ bun run preview
 
 Check out the [deployment documentation](https://nuxt.com/docs/getting-started/deployment) for more information.
 
-
 ## Notes
 
 - Nuxt is pinned to v3.21.2 because disabling SSR (`ssr: false` in `nuxt.config.ts`) causes errors. See [nuxt/nuxt#34957](https://github.com/nuxt/nuxt/issues/34957).
 - All dependency versions are pinned (no ranges) to reduce supply chain attack risk. pnpm is used for the same reason — its strict resolution enforces exact versions.
 - `@nordhealth/css` declares `@nordhealth/tokens` as a devDependency but its Tailwind integration (`lib/tailwind/main.css`) imports `@nordhealth/tokens/lib/tokens.custom-properties.css` at runtime. If you see `Can't resolve '@nordhealth/tokens'`, run `pnpm add @nordhealth/tokens` to install it explicitly.
-
