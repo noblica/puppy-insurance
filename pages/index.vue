@@ -39,7 +39,10 @@ const onSubmit = () => {
   if (r$.$invalid) return
 
   formState.value = 'submitting'
-  setTimeout(() => { navigateTo('/success') }, 3000)
+  setTimeout(() => {
+    localStorage.setItem('signup_complete', 'true')
+    navigateTo('/success')
+  }, 3000)
 }
 
 </script>

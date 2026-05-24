@@ -6,6 +6,18 @@ import '@nordhealth/components/lib/Button'
 
 useHead({ title: 'Account created | Puppy Insurance' })
 
+definePageMeta({
+  middleware: (to, from) => {
+    if (!localStorage.getItem('signup_complete')) {
+      return navigateTo('/')
+    }
+  },
+})
+
+const goHome = () => {
+  localStorage.removeItem('signup_complete')
+  navigateTo('/')
+}
 </script>
 
 <template>
@@ -18,11 +30,9 @@ useHead({ title: 'Account created | Puppy Insurance' })
         class="n:text-success"
       />
       <p>Your account has been created successfully.</p>
-      <NuxtLink to="/">
-        <nord-button variant="primary">
-          Go to home
-        </nord-button>
-      </NuxtLink>
+      <nord-button variant="primary" @click="goHome">
+        Go to home
+      </nord-button>
     </nord-stack>
   </nord-card>
 </template>
