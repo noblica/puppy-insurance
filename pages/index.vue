@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { createRule } from '@regle/core';
-import { required, email, minLength, containsUppercase, containsSpecialCharacter, sameAs } from '@regle/rules';
+import { required, email, minLength, containsUppercase, containsSpecialCharacter, sameAs, checked, and } from '@regle/rules';
 
 import '@nordhealth/components/lib/Card'
 import '@nordhealth/components/lib/Stack'
@@ -16,14 +16,16 @@ const containsNumber = createRule({
   message: 'Must contain a number',
 })
 
-const form = reactive({ email: '', password: '', confirmPassword: '' })
+const form = reactive({ email: '', password: '', confirmPassword: '', marketingConsent: false, termsAccepted: false })
 
 const { r$ } = useRegle(
   form,
   {
     email: { required, email },
-    password: { required, minLength: minLength(8), containsUppercase, containsNumber, containsSpecialCharacter },
+    // `and(required, ...)` prevents built-in rules from passing on empty values
+    password: { required, minLength: and(required, minLength(8)), containsUppercase: and(required, containsUppercase()), containsNumber, containsSpecialCharacter: and(required, containsSpecialCharacter()) },
     confirmPassword: { required, sameAs: sameAs(() => form.password, 'Password') },
+    termsAccepted: { checked },
   },
   { autoDirty: false },
 )
@@ -31,13 +33,6 @@ const { r$ } = useRegle(
 const passwordVisible = ref(false);
 const confirmPasswordVisible = ref(false);
 const submitting = ref(false);
-
-const passwordChecks = computed(() => ({
-  minLength: r$.$value.password.length >= 8,
-  hasUppercase: /[A-Z]/.test(r$.$value.password),
-  hasNumber: /[0-9]/.test(r$.$value.password),
-  hasSpecial: /[^a-zA-Z0-9]/.test(r$.$value.password),
-}))
 
 const onSubmit = () => {
   r$.$touch()
@@ -73,7 +68,8 @@ const onSubmit = () => {
           label="Password"
           :type="passwordVisible ? 'text' : 'password'"
           placeholder="Enter your password"
-          :error="r$.password.$dirty ? r$.password.$errors[0] : undefined"
+          :error="r$.password.$dirty && r$.password.$invalid ? ' ' : undefined"
+          :class="r$.password.$errors[0] ? 'n:border-danger' : null"
           @blur="r$.password.$touch()"
         >
           <nord-button
@@ -89,45 +85,48 @@ const onSubmit = () => {
             />
           </nord-button>
         </nord-input>
-        <div v-if="r$.$value.password" class="n:flex n:flex-col n:gap-2xs n:text-danger">
-          <div :class="`n:flex n:items-center n:gap-2xs n:text-s ${passwordChecks.minLength && 'n:text-success'}`">
+
+        <div v-if="r$.password.$dirty" class="n:flex n:flex-col n:gap-2xs">
+
+          <div :class="`n:flex n:items-center n:gap-2xs n:text-s ${r$.password.$rules.minLength.$valid ? 'n:text-success' : 'n:text-danger'}`">
             <nord-icon
-              :name="passwordChecks.minLength ? 'interface-checked-small' : 'interface-close-small'"
+              :name="r$.password.$rules.minLength.$valid ? 'interface-checked-small' : 'interface-close-small'"
               class="n:shrink-0"
               size="xs"
             />
-            <span :class="passwordChecks.minLength ? 'n:text-status-success' : 'n:text-status-danger'">At least 8 characters</span>
+            <span>At least 8 characters</span>
           </div>
-          <div class="n:flex n:items-center n:gap-2xs n:text-s">
+
+          <div :class="`n:flex n:items-center n:gap-2xs n:text-s ${r$.password.$rules.containsUppercase.$valid ? 'n:text-success' : 'n:text-danger'}`">
             <nord-icon
-              :name="passwordChecks.hasUppercase ? 'interface-checked-small' : 'interface-close-small'"
+              :name="r$.password.$rules.containsUppercase.$valid ? 'interface-checked-small' : 'interface-close-small'"
               class="n:shrink-0"
               size="xs"
             />
-            <span :class="passwordChecks.hasUppercase ? 'n:text-status-success' : 'n:text-status-danger'">Must contain an uppercase letter</span>
+            <span>Must contain an uppercase letter</span>
           </div>
-          <div class="n:flex n:items-center n:gap-2xs n:text-s">
+          <div :class="`n:flex n:items-center n:gap-2xs n:text-s ${r$.password.$rules.containsNumber.$valid ? 'n:text-success' : 'n:text-danger'}`">
             <nord-icon
-              :name="passwordChecks.hasNumber ? 'interface-checked-small' : 'interface-close-small'"
+              :name="r$.password.$rules.containsNumber.$valid ? 'interface-checked-small' : 'interface-close-small'"
               class="n:shrink-0"
               size="xs"
             />
-            <span :class="passwordChecks.hasNumber ? 'n:text-status-success' : 'n:text-status-danger'">Must contain a number</span>
+            <span>Must contain a number</span>
           </div>
-          <div class="n:flex n:items-center n:gap-2xs n:text-s">
+          <div :class="`n:flex n:items-center n:gap-2xs n:text-s ${r$.password.$rules.containsSpecialCharacter.$valid ? 'n:text-success' : 'n:text-danger'}`">
             <nord-icon
-              :name="passwordChecks.hasSpecial ? 'interface-checked-small' : 'interface-close-small'"
+              :name="r$.password.$rules.containsSpecialCharacter.$valid ? 'interface-checked-small' : 'interface-close-small'"
               class="n:shrink-0"
               size="xs"
             />
-            <span :class="passwordChecks.hasSpecial ? 'n:text-status-success' : 'n:text-status-danger'">Must contain a special character</span>
+            <span>Must contain a special character</span>
           </div>
         </div>
         <nord-input
+          placeholder="Confirm your password"
           v-model='r$.$value.confirmPassword'
           label="Confirm password"
           :type="confirmPasswordVisible ? 'text' : 'password'"
-          placeholder="Confirm your password"
           :error="r$.confirmPassword.$errors[0]"
           @blur="r$.confirmPassword.$touch()"
         >
@@ -145,26 +144,32 @@ const onSubmit = () => {
           </nord-button>
         </nord-input>
 
-        <!-- <nord-checkbox -->
-        <!--   name="marketingConsent" -->
-        <!--   label="Receive occasional product updates and announcements" -->
-        <!-- /> -->
-        <!---->
-        <!-- <nord-checkbox -->
-        <!--   name="termsAccepted" -->
-        <!-- > -->
-        <!--   <span slot="label"> -->
-        <!--     I accept the -->
-        <!--     <a href="#" style="color: var(--n-color-accent);">Terms of Service</a> -->
-        <!--     and -->
-        <!--     <a href="#" style="color: var(--n-color-accent);">Privacy Policy</a> -->
-        <!--   </span> -->
-        <!-- </nord-checkbox> -->
+        <nord-checkbox
+          v-model="r$.$value.marketingConsent"
+          type="checkbox"
+          name="marketingConsent"
+          label="Receive occasional product updates and announcements"
+        />
+
+        <nord-checkbox
+          v-model="r$.$value.termsAccepted"
+          type="checkbox"
+          name="termsAccepted"
+          :error="r$.termsAccepted.$errors[0]"
+        >
+          <span slot="label">
+            I accept the
+            <a href="#" style="color: var(--n-color-accent);">Terms of Service</a>
+            and
+            <a href="#" style="color: var(--n-color-accent);">Privacy Policy</a>
+          </span>
+        </nord-checkbox>
 
         <nord-button 
           type="submit" 
           variant="primary"
           :loading="submitting"
+          :disabled="r$.$anyDirty && (r$.$invalid || !r$.$value.termsAccepted)"
         >
           Create account
         </nord-button>
