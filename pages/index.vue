@@ -9,13 +9,6 @@ import '@nordhealth/components/lib/Checkbox'
 import '@nordhealth/components/lib/Button'
 import '@nordhealth/components/lib/Icon'
 
-import nordicons from '@nordhealth/icons'
-
-const eyeOffIcon = nordicons['interface-edit-off']
-const eyeOnIcon = nordicons['interface-edit-on']
-const checkedIcon = nordicons['interface-checked-small']
-const uncheckedIcon = nordicons['interface-close-small']
-
 useHead({ title: 'Sign up | Puppy Insurance' })
 
 const containsNumber = createRule({
@@ -60,7 +53,7 @@ const onSubmit = () => {
   <nord-card className="n:w-full n:max-w-[440px]">
     <div class="n:flex n:flex-col n:items-center n:text-center n:gap-xs n:pb-l n:border-b n:border-default n:mb-xs">
       <div class="n:flex n:items-center n:gap-xs">
-        <PawIcon :width="30" :height="30" class="n:fill-accent" />
+        <nord-icon name="generic-pet-paw" size="xl" />
         <span class="n:text-l n:font-weight-heading n:text-default">Puppy Insurance</span>
       </div>
       <p class="n:caption n:m-0 n:text-s">Sign Up</p>
@@ -92,16 +85,14 @@ const onSubmit = () => {
             @click="passwordVisible = !passwordVisible"
           >
             <nord-icon
-              :name="passwordVisible ? eyeOffIcon.title : eyeOnIcon.title"
-              :svg="passwordVisible ? eyeOffIcon.svg : eyeOnIcon.svg"
+              :name="passwordVisible ? 'interface-edit-off' : 'interface-edit-on'"
             />
           </nord-button>
         </nord-input>
-        <div v-if="r$.$value.password" class="n:flex n:flex-col n:gap-2xs">
-          <div class="n:flex n:items-center n:gap-2xs n:text-s">
+        <div v-if="r$.$value.password" class="n:flex n:flex-col n:gap-2xs n:text-danger">
+          <div :class="`n:flex n:items-center n:gap-2xs n:text-s ${passwordChecks.minLength && 'n:text-success'}`">
             <nord-icon
-              :name="passwordChecks.minLength ? checkedIcon.title : uncheckedIcon.title"
-              :svg="passwordChecks.minLength ? checkedIcon.svg : uncheckedIcon.svg"
+              :name="passwordChecks.minLength ? 'interface-checked-small' : 'interface-close-small'"
               class="n:shrink-0"
               size="xs"
             />
@@ -109,8 +100,7 @@ const onSubmit = () => {
           </div>
           <div class="n:flex n:items-center n:gap-2xs n:text-s">
             <nord-icon
-              :name="passwordChecks.hasUppercase ? checkedIcon.title : uncheckedIcon.title"
-              :svg="passwordChecks.hasUppercase ? checkedIcon.svg : uncheckedIcon.svg"
+              :name="passwordChecks.hasUppercase ? 'interface-checked-small' : 'interface-close-small'"
               class="n:shrink-0"
               size="xs"
             />
@@ -118,8 +108,7 @@ const onSubmit = () => {
           </div>
           <div class="n:flex n:items-center n:gap-2xs n:text-s">
             <nord-icon
-              :name="passwordChecks.hasNumber ? checkedIcon.title : uncheckedIcon.title"
-              :svg="passwordChecks.hasNumber ? checkedIcon.svg : uncheckedIcon.svg"
+              :name="passwordChecks.hasNumber ? 'interface-checked-small' : 'interface-close-small'"
               class="n:shrink-0"
               size="xs"
             />
@@ -127,8 +116,7 @@ const onSubmit = () => {
           </div>
           <div class="n:flex n:items-center n:gap-2xs n:text-s">
             <nord-icon
-              :name="passwordChecks.hasSpecial ? checkedIcon.title : uncheckedIcon.title"
-              :svg="passwordChecks.hasSpecial ? checkedIcon.svg : uncheckedIcon.svg"
+              :name="passwordChecks.hasSpecial ? 'interface-checked-small' : 'interface-close-small'"
               class="n:shrink-0"
               size="xs"
             />
@@ -152,8 +140,7 @@ const onSubmit = () => {
             @click="confirmPasswordVisible = !confirmPasswordVisible"
           >
             <nord-icon
-              :name="confirmPasswordVisible ? eyeOffIcon.title : eyeOnIcon.title"
-              :svg="confirmPasswordVisible ? eyeOffIcon.svg : eyeOnIcon.svg"
+              :name="confirmPasswordVisible ? 'interface-edit-off' : 'interface-edit-on'"
             />
           </nord-button>
         </nord-input>
