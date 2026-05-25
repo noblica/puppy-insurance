@@ -10,7 +10,15 @@
       class="n:hidden n:s:flex n:s:w-[45%] n:s:h-dvh n:overflow-hidden n:s:sticky n:s:top-0 n:relative"
       aria-hidden="true"
     >
-      <img src="~/assets/hero.jpg" alt="" class="n:w-full n:h-full n:object-cover n:object-top" />
+      <picture class="n:block n:w-full n:h-full">
+        <source srcset="~/assets/hero.webp" type="image/webp" />
+        <img
+          src="~/assets/hero.jpg"
+          alt=""
+          decoding="async"
+          class="n:w-full n:h-full n:object-cover n:object-top"
+        />
+      </picture>
       <div class="n:absolute n:inset-0 n:bg-gradient-to-b n:from-black/50 n:to-transparent"></div>
     </aside>
 

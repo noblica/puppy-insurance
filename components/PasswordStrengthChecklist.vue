@@ -1,12 +1,7 @@
 <script setup lang="ts">
-const rules = [
-  { label: "At least 8 characters", ruleField: "minLength" as const },
-  { label: "Must contain an uppercase letter", ruleField: "containsUppercase" as const },
-  { label: "Must contain a number", ruleField: "containsNumber" as const },
-  { label: "Must contain a special character", ruleField: "containsSpecialCharacter" as const },
-] as const;
+import { PASSWORD_RULES } from "~/utils/validation-rules";
 
-const props = defineProps<{
+defineProps<{
   passwordRules: Record<string, { $valid: boolean }>;
 }>();
 </script>
@@ -14,15 +9,13 @@ const props = defineProps<{
 <template>
   <div role="status" aria-live="polite" class="n:flex n:flex-col n:gap-2xs">
     <div
-      v-for="rule in rules"
+      v-for="rule in PASSWORD_RULES"
       :key="rule.label"
-      :class="`n:flex n:items-center n:gap-xs n:text-s ${props.passwordRules[rule.ruleField].$valid ? 'n:text-success' : 'n:text-error'}`"
+      :class="`n:flex n:items-center n:gap-xs n:text-s ${passwordRules[rule.field].$valid ? 'n:text-success' : 'n:text-error'}`"
     >
       <nord-icon
         :name="
-          props.passwordRules[rule.ruleField].$valid
-            ? 'interface-checked-small'
-            : 'interface-close-small'
+          passwordRules[rule.field].$valid ? 'interface-checked-small' : 'interface-close-small'
         "
         class="n:shrink-0"
         size="xs"

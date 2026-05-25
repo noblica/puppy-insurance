@@ -1,5 +1,12 @@
 import { createRule } from "@regle/core";
 
+export const PASSWORD_RULES = [
+  { label: "At least 8 characters", field: "minLength" },
+  { label: "Must contain an uppercase letter", field: "containsUppercase" },
+  { label: "Must contain a number", field: "containsNumber" },
+  { label: "Must contain a special character", field: "containsSpecialCharacter" },
+] as const;
+
 export function containsNumber() {
   // Returns true for empty values so that the rule only reports failures
   // when an actual value is present. The `required` rule (gated via `and()`

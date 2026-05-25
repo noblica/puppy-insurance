@@ -16,8 +16,4 @@ const localStorageMock = (() => {
   };
 })();
 
-Object.defineProperty(global, "localStorage", {
-  value: localStorageMock,
-});
-
 vi.stubGlobal("localStorage", localStorageMock);
