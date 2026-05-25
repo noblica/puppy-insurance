@@ -40,16 +40,18 @@ function handleClearError() {
 </script>
 
 <template>
-  <nord-card padding="l" className="n:w-full n:max-w-[440px]">
-    <nord-stack slot="header">
-      <h1 class="n:text-l">{{ statusDescription.heading }}</h1>
-    </nord-stack>
-    <nord-stack gap="xl">
-      <nord-stack align-items="center" gap="m">
-        <nord-icon name="interface-warning" size="xl" class="n:text-danger" />
-        <p>{{ statusDescription.message }}</p>
+  <div class="n:flex n:items-center n:justify-center n:min-h-full n:p-m n:bg-default">
+    <nord-card padding="l" className="n:w-full n:max-w-[440px]">
+      <nord-stack slot="header">
+        <h1 class="n:text-l">{{ statusDescription.heading }}</h1>
       </nord-stack>
-      <nord-button variant="primary" expand @click="handleClearError">Go to home</nord-button>
-    </nord-stack>
-  </nord-card>
+      <nord-stack gap="xl">
+        <nord-stack align-items="center" gap="m">
+          <nord-icon name="interface-warning" size="xl" class="n:text-danger" />
+          <p>{{ statusDescription.message }}</p>
+        </nord-stack>
+        <nord-button variant="primary" expand @click="handleClearError">Go to home</nord-button>
+      </nord-stack>
+    </nord-card>
+  </div>
 </template>
