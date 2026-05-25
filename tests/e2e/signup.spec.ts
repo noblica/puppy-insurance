@@ -1,15 +1,5 @@
-import { test as base, expect, type Page } from "@playwright/test";
+import { test, expect, type Page } from "@playwright/test";
 import AxeBuilder from "@axe-core/playwright";
-
-type TestFixtures = {
-  isMobile: boolean;
-};
-
-const test = base.extend<TestFixtures>({
-  isMobile: async (_fixtures, use, testInfo) => {
-    await use(testInfo.project.name.includes("mobile"));
-  },
-});
 
 const VALID_EMAIL = "test@example.com";
 const VALID_PASSWORD = "Password1!";
@@ -117,9 +107,8 @@ test.describe("Sign-up form", () => {
 
   test("keyboard navigation: tab through fields and submit with Enter", async ({
     page,
-    isMobile,
-  }) => {
-    test.skip(isMobile, "Mobile has no keyboard navigation");
+  }, testInfo) => {
+    test.skip(testInfo.project.name.includes("mobile"), "Mobile has no keyboard navigation");
     const emailInput = page.locator('nord-input[label="Email"]').locator("input");
 
     await emailInput.focus();
