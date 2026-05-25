@@ -2,7 +2,7 @@ import { describe, it, expect } from "vitest";
 import { mount } from "@vue/test-utils";
 import PasswordStrengthChecklist from "~/components/PasswordStrengthChecklist.vue";
 
-function makePasswordRules(overrides: Partial<Record<string, boolean>> = {}) {
+function makePasswordRules(overrides: Record<string, boolean> = {}) {
   const defaults: Record<string, { $valid: boolean }> = {
     minLength: { $valid: true },
     containsUppercase: { $valid: true },
