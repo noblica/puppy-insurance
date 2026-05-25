@@ -9,7 +9,7 @@ import {
   and,
 } from "@regle/rules";
 import { containsNumber } from "~/utils/validation-rules";
-import { SIGNUP_COMPLETE_KEY } from "~/utils/constants";
+import { submitSignup } from "~/services/submission";
 
 function focusFirstInvalidField(form: HTMLFormElement) {
   const element = form.querySelector<HTMLElement>("[error]:not([error=''])");
@@ -44,10 +44,14 @@ export function useSignupForm() {
 
   const passwordVisible = ref(false);
   const confirmPasswordVisible = ref(false);
-  const formState = ref<"idle" | "submitting">("idle");
+  const formState = ref<"idle" | "submitting" | "error">("idle");
+  const errorMessage = ref("");
   const formRef = ref<HTMLFormElement | null>(null);
 
-  const onSubmit = () => {
+  const onSubmit = async () => {
+    errorMessage.value = "";
+    formState.value = "idle";
+
     r$.$touch();
     if (r$.$invalid) {
       nextTick(() => {
@@ -59,10 +63,19 @@ export function useSignupForm() {
     }
 
     formState.value = "submitting";
-    setTimeout(() => {
-      localStorage.setItem(SIGNUP_COMPLETE_KEY, "true");
-      navigateTo("/success");
-    }, 3000);
+
+    try {
+      const result = await submitSignup();
+      if (result.success) {
+        navigateTo("/success");
+      } else {
+        formState.value = "error";
+        errorMessage.value = result.error ?? "Something went wrong. Please try again.";
+      }
+    } catch {
+      formState.value = "error";
+      errorMessage.value = "Something went wrong. Please try again.";
+    }
   };
 
   return {
@@ -71,6 +84,7 @@ export function useSignupForm() {
     passwordVisible,
     confirmPasswordVisible,
     formState,
+    errorMessage,
     formRef,
     onSubmit,
   };

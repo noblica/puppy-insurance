@@ -4,7 +4,7 @@ import { useSignupForm } from "~/composables/useSignupForm";
 
 useHead({ title: "Sign up | Puppy Insurance" });
 
-const { r$, passwordVisible, confirmPasswordVisible, formState, formRef, onSubmit } =
+const { r$, passwordVisible, confirmPasswordVisible, formState, errorMessage, formRef, onSubmit } =
   useSignupForm();
 </script>
 
@@ -120,6 +120,10 @@ const { r$, passwordVisible, confirmPasswordVisible, formState, formRef, onSubmi
               <a href="javascript:void(0)" class="n:text-accent">Privacy Policy</a>
             </span>
           </nord-checkbox>
+        </nord-stack>
+
+        <nord-stack v-if="formState === 'error'" role="alert" class="n:text-error n:text-s">
+          {{ errorMessage }}
         </nord-stack>
 
         <nord-button type="submit" variant="primary" expand :loading="formState === 'submitting'">

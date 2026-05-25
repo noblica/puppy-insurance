@@ -111,7 +111,9 @@ pnpm preview
 ├── components/
 │   └── PasswordStrengthChecklist.vue
 ├── composables/
-│   └── useSignupForm.ts         # Form state and submission logic
+│   └── useSignupForm.ts         # Form state, validation, and async submission with error handling
+├── services/
+│   └── submission.ts             # Sign-up submission service
 ├── utils/
 │   ├── constants.ts             # Shared constants
 │   └── validation-rules.ts       # Custom Regle validation rules

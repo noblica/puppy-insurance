@@ -10,7 +10,7 @@ The application is a client-only Nuxt 3 SPA with a multi-step sign-up form, pass
 
 - Validation logic (unit)
 - Component rendering and class application (unit)
-- Composable state transitions — idle, submitting, localStorage persistence (unit)
+- Composable state transitions — idle, submitting, error, localStorage persistence (unit)
 - End-to-end user flows — field interaction, form submission, URL navigation (E2E)
 - Responsive layout — desktop two-column vs mobile full-width (E2E)
 - Keyboard navigation (E2E)
@@ -24,9 +24,8 @@ Adopt a three-layer testing strategy:
 
 - **Runner**: Vitest with `@nuxt/test-utils` providing the Nuxt environment (`environment: "nuxt"`, `globals: true`).
 - **Scope**: All composables, components, and utility functions in `tests/unit/`.
-- **Fake timers**: `vi.useFakeTimers()` for the 3-second mock submission delay, ensuring tests are deterministic and fast.
-- **Composable testing pattern**: Wrap `useSignupForm()` in a minimal Vue component (`defineComponent` / `mountSuspended`), expose returned state on `window`, and assert directly. This avoids mocking the Nuxt/Vue runtime and tests the composable in its real execution context.
-- **No DOM environment for composable tests**: The test wrapper renders `null` (no template), avoiding unnecessary DOM assertions when only state transitions are being tested.
+- **Module mocking**: The submission service (`~/services/submission`) is mocked via `vi.mock()` so composable tests control success, failure, and error scenarios without fake timers or parameter injection.
+- **Composable testing pattern**: Wrap `useSignupForm()` in a minimal Vue component (`defineComponent` / `mountSuspended`) that returns the composable state from `setup()`. Read state through `wrapper.vm` — the component's own public interface. For reactive refs that change during the test (e.g. `formState`), re-access `wrapper.vm` after mutations to avoid destructuring a stale snapshot (Vue's `wrapper.vm` auto-unwraps `Ref` values, so destructuring captures the value at read time).
 - **Component testing**: `@vue/test-utils` `mount` for `PasswordStrengthChecklist`, asserting text content, element count, and CSS class application for valid/invalid states.
 
 ### Layer 2: E2E tests (Playwright)
@@ -65,6 +64,5 @@ Adopt a three-layer testing strategy:
 
 - **Positive**: Every production code file has corresponding tests. 20 unit tests + 16 E2E tests provide comprehensive coverage for the project's scale.
 - **Positive**: Accessibility regressions are caught automatically in CI before deployment.
-- **Positive**: Fake timers make composable tests deterministic — no flaky `setTimeout` tests.
+- **Positive**: Module-level mocking (`vi.mock`) avoids fake timers entirely — submission tests are deterministic without `advanceTimersByTime`.
 - **Negative**: CI runs are longer due to E2E + accessibility scans. The `lint` / `typecheck` / `unit-tests` / `e2e-tests` / `build` pipeline runs sequentially in GitHub Actions.
-- **Negative**: The composable testing pattern (exposing state on `window`) is fragile — it relies on `window` as a side channel and wouldn't scale to multiple composables per test file without careful cleanup.
