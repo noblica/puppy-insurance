@@ -51,7 +51,7 @@ test.describe("Sign-up form", () => {
     await checkTerms(page);
     await submitForm(page);
 
-    await expect(page).toHaveURL("/success");
+    await expect(page).toHaveURL("success");
     await expect(page.getByText("Your account has been created successfully.")).toBeVisible();
   });
 
@@ -131,7 +131,7 @@ test.describe("Sign-up form", () => {
   test("success page without completing sign-up redirects to /", async ({ page, isMobile }) => {
     test.skip(isMobile, "Desktop-only test");
     await page.goto("/success");
-    await expect(page).toHaveURL("/");
+    await expect(page).toHaveURL(/puppy-insurance\/$/);
   });
 
   test("keyboard navigation: tab through fields and submit with Enter", async ({
@@ -154,7 +154,7 @@ test.describe("Sign-up form", () => {
     await page.getByRole("button", { name: "Create account" }).focus();
     await page.keyboard.press("Enter");
 
-    await expect(page).toHaveURL("/success");
+    await expect(page).toHaveURL("success");
   });
 
   test("mismatched passwords show confirm password error", async ({ page, isMobile }) => {
@@ -214,7 +214,7 @@ test.describe("Sign-up form", () => {
     await checkTerms(page);
     await submitForm(page);
 
-    await expect(page).toHaveURL("/success");
+    await expect(page).toHaveURL("success");
     await page.waitForSelector("h1");
 
     const accessibilityScanResults = await new AxeBuilder({ page }).analyze();
