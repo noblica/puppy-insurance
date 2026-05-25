@@ -3,19 +3,20 @@ import "@nordhealth/components/lib/Card";
 import "@nordhealth/components/lib/Icon";
 import "@nordhealth/components/lib/Stack";
 import "@nordhealth/components/lib/Button";
+import { SIGNUP_COMPLETE_KEY } from "~/utils/constants";
 
 useHead({ title: "Account created | Puppy Insurance" });
 
 definePageMeta({
   middleware: (to, from) => {
-    if (!localStorage.getItem("signup_complete")) {
+    if (!localStorage.getItem(SIGNUP_COMPLETE_KEY)) {
       return navigateTo("/");
     }
   },
 });
 
 const goHome = () => {
-  localStorage.removeItem("signup_complete");
+  localStorage.removeItem(SIGNUP_COMPLETE_KEY);
   navigateTo("/");
 };
 </script>

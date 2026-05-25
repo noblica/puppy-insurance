@@ -1,12 +1,7 @@
 import { describe, it, expect } from "vitest";
-import { createRule } from "@regle/core";
+import { containsNumber } from "~/utils/validation-rules";
 
 describe("containsNumber custom rule", () => {
-  const containsNumber = createRule({
-    validator: (value: string | null | undefined) => /\d/.test(value ?? ""),
-    message: "Must contain a number",
-  });
-
   it("returns true for values containing a digit", () => {
     const result = containsNumber.validator("abc1");
     expect(result).toBe(true);
