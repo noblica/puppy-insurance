@@ -7,6 +7,21 @@ on:
     branches: ["**"]
 
 jobs:
+  lint:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: pnpm/action-setup@v4
+        with:
+          version: 9
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: "pnpm"
+      - run: pnpm install
+      - run: pnpm run lint
+      - run: pnpm run format:check
+
   typecheck:
     runs-on: ubuntu-latest
     steps:
@@ -71,7 +86,7 @@ jobs:
       - run: pnpm run generate
 
   deploy:
-    needs: [typecheck, unit-tests, e2e-tests, build]
+    needs: [lint, typecheck, unit-tests, e2e-tests, build]
     runs-on: ubuntu-latest
     permissions:
       pages: write
