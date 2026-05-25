@@ -12,18 +12,18 @@ describe("containsNumber custom rule", () => {
     expect(result).toBe(false);
   });
 
-  it("returns false for empty string", () => {
+  it("returns true for empty string (delegates to required rule)", () => {
     const result = containsNumber.validator("");
-    expect(result).toBe(false);
+    expect(result).toBe(true);
   });
 
-  it("returns false for null", () => {
+  it("returns true for null (delegates to required rule)", () => {
     const result = containsNumber.validator(null);
-    expect(result).toBe(false);
+    expect(result).toBe(true);
   });
 
-  it("returns false for undefined", () => {
+  it("returns true for undefined (delegates to required rule)", () => {
     const result = containsNumber.validator(undefined);
-    expect(result).toBe(false);
+    expect(result).toBe(true);
   });
 });
