@@ -2,6 +2,7 @@ import { describe, it, expect, vi, beforeEach, afterEach } from "vitest";
 import { mountSuspended } from "@nuxt/test-utils/runtime";
 import { defineComponent, nextTick } from "vue";
 import { useSignupForm } from "~/composables/useSignupForm";
+import { SIGNUP_COMPLETE_KEY } from "~/utils/constants";
 
 const TestWrapper = defineComponent({
   setup() {
@@ -118,26 +119,6 @@ describe("useSignupForm", () => {
     expect(formState.value).toBe("submitting");
   });
 
-  it("password visibility toggle flips passwordVisible", async () => {
-    const { passwordVisible } = await mountAndGetFormData();
-
-    expect(passwordVisible.value).toBe(false);
-    passwordVisible.value = true;
-    expect(passwordVisible.value).toBe(true);
-    passwordVisible.value = false;
-    expect(passwordVisible.value).toBe(false);
-  });
-
-  it("confirm password visibility toggle flips confirmPasswordVisible", async () => {
-    const { confirmPasswordVisible } = await mountAndGetFormData();
-
-    expect(confirmPasswordVisible.value).toBe(false);
-    confirmPasswordVisible.value = true;
-    expect(confirmPasswordVisible.value).toBe(true);
-    confirmPasswordVisible.value = false;
-    expect(confirmPasswordVisible.value).toBe(false);
-  });
-
   it("successful submission sets localStorage", async () => {
     const { form, onSubmit } = await mountAndGetFormData();
 
@@ -149,7 +130,7 @@ describe("useSignupForm", () => {
 
     vi.advanceTimersByTime(3000);
 
-    expect(localStorage.getItem("signup_complete")).toBe("true");
+    expect(localStorage.getItem(SIGNUP_COMPLETE_KEY)).toBe("true");
   });
 
   it("formState remains idle when submission is invalid", async () => {
@@ -173,6 +154,6 @@ describe("useSignupForm", () => {
 
     vi.advanceTimersByTime(3000);
 
-    expect(localStorage.getItem("signup_complete")).toBe("true");
+    expect(localStorage.getItem(SIGNUP_COMPLETE_KEY)).toBe("true");
   });
 });

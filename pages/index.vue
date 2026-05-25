@@ -1,10 +1,11 @@
 <script setup lang="ts">
+import "@nordhealth/components/lib/Button";
 import "@nordhealth/components/lib/Card";
-import "@nordhealth/components/lib/Stack";
+import "@nordhealth/components/lib/Checkbox";
 import "@nordhealth/components/lib/Icon";
 import "@nordhealth/components/lib/Input";
-import "@nordhealth/components/lib/Checkbox";
-import "@nordhealth/components/lib/Button";
+import "@nordhealth/components/lib/Stack";
+import "@nordhealth/components/lib/VisuallyHidden";
 import PasswordStrengthChecklist from "~/components/PasswordStrengthChecklist.vue";
 import { useSignupForm } from "~/composables/useSignupForm";
 
@@ -29,7 +30,7 @@ const { r$, passwordVisible, confirmPasswordVisible, formState, formRef, onSubmi
             placeholder="you@example.com"
             autocomplete="email"
             expand
-            :error="r$.email.$errors[0]"
+            :error="r$.email.$dirty && r$.email.$invalid ? r$.email.$errors[0] : undefined"
             :disabled="formState === 'submitting'"
             @blur="r$.email.$touch()"
           />
@@ -71,7 +72,11 @@ const { r$, passwordVisible, confirmPasswordVisible, formState, formRef, onSubmi
             :type="confirmPasswordVisible ? 'text' : 'password'"
             autocomplete="new-password"
             expand
-            :error="r$.confirmPassword.$errors[0]"
+            :error="
+              r$.confirmPassword.$dirty && r$.confirmPassword.$invalid
+                ? r$.confirmPassword.$errors[0]
+                : undefined
+            "
             :disabled="formState === 'submitting'"
             @blur="r$.confirmPassword.$touch()"
           >
@@ -108,7 +113,11 @@ const { r$, passwordVisible, confirmPasswordVisible, formState, formRef, onSubmi
             v-model="r$.$value.termsAccepted"
             type="checkbox"
             name="termsAccepted"
-            :error="r$.termsAccepted.$errors[0]"
+            :error="
+              r$.termsAccepted.$dirty && r$.termsAccepted.$invalid
+                ? r$.termsAccepted.$errors[0]
+                : undefined
+            "
             :disabled="formState === 'submitting'"
           >
             <span slot="label" class="n:text-s">
