@@ -52,19 +52,14 @@ test.describe("Sign-up form", () => {
     await expect(page.getByText("Your account has been created successfully.")).toBeVisible();
   });
 
-  test("submit with all fields empty shows required errors for each field", async ({
-    page,
-    isMobile,
-  }) => {
-    test.skip(isMobile, "Desktop-only test");
+  test("submit with all fields empty shows required errors for each field", async ({ page }) => {
     await submitForm(page);
 
     await expect(page.getByText("This field is required")).toHaveCount(3);
     await expect(page.getByText("The field must be checked")).toBeVisible();
   });
 
-  test("submit with invalid email shows email format error", async ({ page, isMobile }) => {
-    test.skip(isMobile, "Desktop-only test");
+  test("submit with invalid email shows email format error", async ({ page }) => {
     await fillEmail(page, "notanemail");
     await fillPassword(page, VALID_PASSWORD);
     await fillConfirmPassword(page, VALID_PASSWORD);
@@ -74,28 +69,22 @@ test.describe("Sign-up form", () => {
     await expect(page.getByText("The value must be a valid email address")).toBeVisible();
   });
 
-  test("password strength checklist updates live as user types", async ({ page, isMobile }) => {
-    test.skip(isMobile, "Desktop-only test");
+  test("password strength checklist updates live as user types", async ({ page }) => {
     const passwordInput = page.locator('nord-input[label="Password"]').locator("input");
 
-    // No checklist before typing
     await expect(page.getByText("At least 8 characters")).not.toBeVisible();
 
-    // After typing, checklist appears
     await passwordInput.fill("a");
     await expect(page.getByText("At least 8 characters")).toBeVisible();
     await expect(page.getByText("Must contain an uppercase letter")).toBeVisible();
     await expect(page.getByText("Must contain a number")).toBeVisible();
     await expect(page.getByText("Must contain a special character")).toBeVisible();
 
-    // Requirements are met as user satisfies them
     await passwordInput.fill("Password1!");
-    // All requirements met — checklist still visible with correct state
     await expect(page.getByText("At least 8 characters")).toBeVisible();
   });
 
-  test("password visibility toggle shows and hides password", async ({ page, isMobile }) => {
-    test.skip(isMobile, "Desktop-only test");
+  test("password visibility toggle shows and hides password", async ({ page }) => {
     const passwordInput = page.locator('nord-input[label="Password"]').locator("input");
     const toggleButton = page.locator('nord-input[label="Password"]').getByRole("button");
 
@@ -109,11 +98,7 @@ test.describe("Sign-up form", () => {
     await expect(passwordInput).toHaveAttribute("type", "password");
   });
 
-  test("password toggle button has visually hidden text for accessibility", async ({
-    page,
-    isMobile,
-  }) => {
-    test.skip(isMobile, "Desktop-only test");
+  test("password toggle button has visually hidden text for accessibility", async ({ page }) => {
     const toggleButton = page.locator('nord-input[label="Password"]').locator("nord-button");
 
     await expect(toggleButton).toContainText("Show password");
@@ -125,8 +110,7 @@ test.describe("Sign-up form", () => {
     await expect(toggleButton).toHaveAttribute("aria-pressed", "true");
   });
 
-  test("success page without completing sign-up redirects to /", async ({ page, isMobile }) => {
-    test.skip(isMobile, "Desktop-only test");
+  test("success page without completing sign-up redirects to /", async ({ page }) => {
     await page.goto("/success");
     await expect(page).toHaveURL(/puppy-insurance\/$/);
   });
@@ -143,7 +127,7 @@ test.describe("Sign-up form", () => {
     await page.keyboard.press("Tab");
     await page.keyboard.type(VALID_PASSWORD);
     await page.keyboard.press("Tab");
-    await page.keyboard.press("Tab"); // skip password toggle
+    await page.keyboard.press("Tab");
     await page.keyboard.type(VALID_PASSWORD);
 
     await checkTerms(page);
@@ -154,8 +138,7 @@ test.describe("Sign-up form", () => {
     await expect(page).toHaveURL("success");
   });
 
-  test("mismatched passwords show confirm password error", async ({ page, isMobile }) => {
-    test.skip(isMobile, "Desktop-only test");
+  test("mismatched passwords show confirm password error", async ({ page }) => {
     await fillEmail(page, VALID_EMAIL);
     await fillPassword(page, VALID_PASSWORD);
     await fillConfirmPassword(page, "DifferentPassword1!");
@@ -165,8 +148,7 @@ test.describe("Sign-up form", () => {
     await expect(page.getByText("The value must be equal to the Password value")).toBeVisible();
   });
 
-  test("all form fields are disabled during submission", async ({ page, isMobile }) => {
-    test.skip(isMobile, "Desktop-only test");
+  test("all form fields are disabled during submission", async ({ page }) => {
     await fillEmail(page, VALID_EMAIL);
     await fillPassword(page, VALID_PASSWORD);
     await fillConfirmPassword(page, VALID_PASSWORD);
@@ -174,7 +156,6 @@ test.describe("Sign-up form", () => {
 
     await submitForm(page);
 
-    // While submitting (before navigation), fields should be disabled
     const submitButton = page.getByRole("button", { name: "Create account" });
     await expect(submitButton).toBeDisabled();
   });
@@ -194,8 +175,7 @@ test.describe("Sign-up form", () => {
     expect(violations).toEqual([]);
   });
 
-  test("validation failure moves focus to first error", async ({ page, isMobile }) => {
-    test.skip(isMobile, "Desktop-only test");
+  test("validation failure moves focus to first error", async ({ page }) => {
     await submitForm(page);
 
     await page.waitForSelector('[role="alert"], [aria-live]');
@@ -224,5 +204,26 @@ test.describe("Sign-up form", () => {
     );
 
     expect(violations).toEqual([]);
+  });
+});
+
+test.describe("Sign-up form — mobile-specific", () => {
+  test.beforeEach(async ({ page }, testInfo) => {
+    test.skip(!testInfo.project.name.includes("mobile"), "Mobile project only");
+    await page.goto("/");
+  });
+
+  test("hero sidebar is hidden", async ({ page }) => {
+    const sidebar = page.locator("aside");
+    await expect(sidebar).toBeHidden();
+  });
+
+  test("main content fills the full viewport width on mobile", async ({ page }) => {
+    const mainElement = page.locator("main");
+    const viewport = page.viewportSize();
+    const box = await mainElement.boundingBox();
+
+    expect(box).not.toBeNull();
+    expect(box!.width).toBe(viewport!.width);
   });
 });
