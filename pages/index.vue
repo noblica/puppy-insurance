@@ -19,6 +19,7 @@ import {
 
 useHead({ title: "Sign up | Puppy Insurance" });
 
+// Custom rule: checks if password contains at least one digit
 const containsNumber = createRule({
   validator: (value: string | null | undefined) => /\d/.test(value ?? ""),
   message: "Must contain a number",
@@ -36,7 +37,7 @@ const { r$ } = useRegle(
   form,
   {
     email: { required, email },
-    // `and(required, ...)` prevents built-in rules from passing on empty values
+    // Using `and(required, ...)` ensures built-in rules don't pass on empty values
     password: {
       required,
       minLength: and(required, minLength(8)),
@@ -47,6 +48,7 @@ const { r$ } = useRegle(
     confirmPassword: { required, sameAs: sameAs(() => form.password, "Password") },
     termsAccepted: { checked },
   },
+  // Defer validation until user interaction to avoid showing errors immediately
   { autoDirty: false },
 );
 
@@ -56,10 +58,12 @@ const formState = ref<"idle" | "submitted" | "submitting">("idle");
 
 const formRef = ref<HTMLFormElement | null>(null);
 
+// Validates form, focuses first invalid field on error, or simulates submission
 const onSubmit = () => {
   formState.value = "submitted";
   r$.$touch();
   if (r$.$invalid) {
+    // Wait for DOM update before focusing first invalid field for accessibility
     nextTick(() => {
       const firstInvalid = formRef.value?.querySelector<HTMLElement>(
         'nord-input[error]:not([error=""]), nord-checkbox[error]:not([error=""])',
@@ -122,6 +126,7 @@ const onSubmit = () => {
             </nord-button>
           </nord-input>
 
+          <!-- Live validation feedback - only shown after password field is touched -->
           <div
             v-if="r$.password.$dirty"
             role="status"
