@@ -24,18 +24,20 @@ A client-only Vue.js application featuring a sign-up form with real-time validat
 
 ## Prerequisites
 
-- Node.js 18+
-- pnpm (recommended for strict dependency resolution)
+- Node.js 22 (see `.nvmrc`)
+- pnpm 10.26.2 (see `packageManager` in package.json)
 
-## Setup
+## Getting Started
+
+### Install dependencies
 
 ```bash
 pnpm install
 ```
 
-## Development
+### Development
 
-Start the development server on `http://localhost:3000`:
+Start the development server on `http://localhost:3000/puppy-insurance/`:
 
 ```bash
 pnpm dev
@@ -71,7 +73,9 @@ pnpm typecheck
 
 ```bash
 pnpm lint
-pnpm format
+pnpm lint:fix      # Auto-fix lint issues
+pnpm format        # Format code
+pnpm format:check  # Check formatting
 ```
 
 ## Production
@@ -80,6 +84,12 @@ Build for production:
 
 ```bash
 pnpm build
+```
+
+Generate static site:
+
+```bash
+pnpm generate
 ```
 
 Preview production build locally:
@@ -91,18 +101,34 @@ pnpm preview
 ## Project Structure
 
 ```
-├── app.vue              # Root app component with NuxtLayout
+├── app.vue                      # Root app component with NuxtLayout
+├── error.vue                    # Error boundary page
 ├── layouts/
-│   └── default.vue      # Two-column layout with hero image
+│   └── default.vue              # Two-column layout with hero image
 ├── pages/
-│   ├── index.vue        # Sign-up form
-│   └── success.vue      # Success page (route guard)
+│   ├── index.vue                # Sign-up form
+│   └── success.vue              # Success page (route guard)
+├── components/
+│   └── PasswordStrengthChecklist.vue
+├── composables/
+│   └── useSignupForm.ts         # Form state and submission logic
+├── utils/
+│   ├── constants.ts             # Shared constants
+│   └── validation-rules.ts       # Custom Regle validation rules
 ├── assets/
-│   └── main.css         # Tailwind + Nord CSS imports
-├── nuxt.config.ts       # Nuxt configuration
+│   ├── main.css                 # Tailwind + Nord CSS imports
+│   ├── hero.jpg                 # Hero image
+│   └── logo.png                 # Logo
 ├── tests/
-│   ├── unit/            # Vitest unit tests
-│   └── e2e/             # Playwright E2E tests
+│   ├── unit/                    # Vitest unit tests
+│   └── e2e/                     # Playwright E2E tests
+├── docs/
+│   └── adr/                     # Architecture Decision Records
+├── nuxt.config.ts               # Nuxt configuration
+├── vitest.config.ts             # Vitest configuration
+├── playwright.config.ts         # Playwright configuration
+├── llms.md                      # Nord Design System documentation
+├── AGENTS.md                    # Agent instructions
 └── README.md
 ```
 
@@ -120,10 +146,30 @@ All Nord components use the `nord-` prefix and are configured as custom elements
 
 Uses `@regle/nuxt` module with built-in rules (`required`, `email`, `minLength`, etc.) and custom rules. The `containsNumber` rule validates password digit requirements.
 
+### Testing Strategy
+
+- **Unit tests**: Vitest with `@nuxt/test-utils` for composable and component testing
+- **E2E tests**: Playwright with Desktop Chrome and mobile (Pixel 5) configurations
+- **Accessibility**: axe-core integrated into E2E tests for automated WCAG compliance checking
+
+See [`docs/adr/002-testing-strategy.md`](./docs/adr/002-testing-strategy.md) for details.
+
+## CI/CD
+
+GitHub Actions workflow runs on every push and pull request:
+
+1. **lint**: oxlint + oxfmt check
+2. **typecheck**: TypeScript type checking
+3. **unit-tests**: Vitest
+4. **e2e-tests**: Playwright + axe-core accessibility
+5. **build**: Static site generation
+6. **deploy**: GitHub Pages deployment (on main branch)
+
 ## Notes
 
-- All dependency versions are pinned (no ranges) to reduce supply chain attack risk. pnpm is used for the same reason — its strict resolution enforces exact versions.
-- `@nordhealth/css` declares `@nordhealth/tokens` as a devDependency but its Tailwind integration imports it at runtime. If you see `Can't resolve '@nordhealth/tokens'`, run `pnpm add @nordhealth/tokens`.
+- All dependency versions are pinned (no ranges) to reduce supply chain attack risk
+- pnpm is used for its strict dependency resolution
+- Pre-commit hooks run lint-staged for automatic linting and formatting
 
 ## License
 
