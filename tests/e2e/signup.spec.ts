@@ -29,10 +29,7 @@ async function fillConfirmPassword(page: Page, value: string) {
 async function checkTerms(page: Page) {
   const checkbox = page.locator("nord-checkbox").filter({ hasText: "Terms of Service" });
   await checkbox.waitFor({ state: "visible" });
-  await checkbox.evaluate((el: Element) => {
-    (el as HTMLElement & { checked: boolean }).checked = true;
-    el.dispatchEvent(new Event("change", { bubbles: true }));
-  });
+  await checkbox.locator('input[type="checkbox"]').click();
 }
 
 async function submitForm(page: Page) {
