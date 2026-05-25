@@ -20,11 +20,17 @@ Key design choices within this ADR:
 
 ## Alternatives Considered
 
-| Alternative                 | Rejected Because                                                                                                                                                      |
-| --------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| **VeeValidate**             | Heavier API, less natural TypeScript inference, more configuration overhead for composable-first use.                                                                 |
-| **Zod + manual validation** | Overkill for a client-only form. Would require wiring Zod schemas to form fields manually. No built-in dirty-tracking or error state management.                      |
-| **Native HTML5 validation** | Insufficient — browser-native validation messages are inconsistent across browsers, cannot be styled with Nord components, and don't support compound password rules. |
+### VeeValidate
+
+**Rejected because**: Heavier API, less natural TypeScript inference, more configuration overhead for composable-first use.
+
+### Zod + manual validation
+
+**Rejected because**: Overkill for a client-only form. Would require wiring Zod schemas to form fields manually. No built-in dirty-tracking or error state management.
+
+### Native HTML5 validation
+
+**Rejected because**: Insufficient — browser-native validation messages are inconsistent across browsers, cannot be styled with Nord components, and don't support compound password rules.
 
 ## Consequences
 

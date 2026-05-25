@@ -1,7 +1,7 @@
 # ADR-002: Testing Strategy (Vitest + Playwright + axe-core)
 
-**Status**: Accepted  
-**Date**: 2025-05-25  
+**Status**: Accepted
+**Date**: 2025-05-25
 **Author**: Dusan Perkovic
 
 ## Context
@@ -34,7 +34,6 @@ Adopt a three-layer testing strategy:
 - **Runner**: Playwright with two browser projects — Desktop Chrome and Pixel 5 mobile Chrome.
 - **Scope**: Full user flows in `tests/e2e/signup.spec.ts`.
 - **Page Object helpers**: `fillEmail`, `fillPassword`, `fillConfirmPassword`, `checkTerms`, `submitForm` — extracted as test helpers rather than a full Page Object Model, keeping the pattern lightweight for this project's scale.
-- **Mobile-conditional tests**: A custom `isMobile` fixture derived from `testInfo.project.name` allows tests to skip mobile-inapplicable scenarios (e.g. keyboard navigation) without duplicating test files.
 - **Shadow DOM queries**: Nord web components render inputs inside shadow roots. Locators use `page.locator('nord-input[label="..."]').locator("input")` to pierce through shadow DOM boundaries.
 
 ### Layer 3: Automated accessibility testing (axe-core)
@@ -46,12 +45,21 @@ Adopt a three-layer testing strategy:
 
 ## Alternatives Considered
 
-| Alternative              | Rejected Because                                                                                                                     |
-| ------------------------ | ------------------------------------------------------------------------------------------------------------------------------------ |
-| **Jest**                 | Nuxt's official testing utilities target Vitest. Jest would require manual Nuxt environment setup.                                   |
-| **Cypress**              | Playwright has better shadow DOM support (critical for Nord web components), native mobile emulation, and faster parallel execution. |
-| **pa11y**                | axe-core integrates more naturally into Playwright's test lifecycle.                                                                 |
-| **Separate a11y CI job** | Embedding axe-core checks in existing E2E tests avoids duplicating setup and page navigation logic.                                  |
+### Jest
+
+**Rejected because**: Nuxt's official testing utilities target Vitest. Jest would require manual Nuxt environment setup.
+
+### Cypress
+
+**Rejected because**: Playwright has better shadow DOM support (critical for Nord web components), native mobile emulation, and faster parallel execution.
+
+### pa11y
+
+**Rejected because**: axe-core integrates more naturally into Playwright's test lifecycle.
+
+### Separate a11y CI job
+
+**Rejected because**: Embedding axe-core checks in existing E2E tests avoids duplicating setup and page navigation logic.
 
 ## Consequences
 

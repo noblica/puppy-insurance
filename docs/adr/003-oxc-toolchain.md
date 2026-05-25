@@ -38,10 +38,13 @@ The `lint` job in `.github/workflows/ci.yml` runs both `pnpm run lint` (oxlint) 
 
 ## Alternatives Considered
 
-| Alternative           | Rejected Because                                                                                                                                                                                      |
-| --------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| **ESLint + Prettier** | Significantly slower (JavaScript-based). Requires extensive configuration files (`eslint.config.*`, `.prettierrc`, plugin setup). The Nuxt/Vue/Tailwind ESLint plugin matrix adds maintenance burden. |
-| **Biome**             | Similar performance to oxc but a different rule set. oxlint was chosen for its simplicity of "just works" defaults. No strong reason to prefer one over the other — the decision is reversible.       |
+### ESLint + Prettier
+
+**Rejected because**: Significantly slower (JavaScript-based). Requires extensive configuration files (`eslint.config.*`, `.prettierrc`, plugin setup). The Nuxt/Vue/Tailwind ESLint plugin matrix adds maintenance burden.
+
+### Biome
+
+**Rejected because**: Similar performance to oxc but a different rule set. oxlint was chosen for its simplicity of "just works" defaults. No strong reason to prefer one over the other — the decision is reversible.
 
 ## Consequences
 

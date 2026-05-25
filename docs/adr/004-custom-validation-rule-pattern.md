@@ -51,12 +51,21 @@ Custom rules are tested in isolation by calling `rule.validator(value)` directly
 
 ## Alternatives Considered
 
-| Alternative                                                 | Rejected Because                                                                                                                       |
-| ----------------------------------------------------------- | -------------------------------------------------------------------------------------------------------------------------------------- |
-| **Handle emptiness inside the rule (don't delegate)**       | Would produce duplicate errors: "This field is required" AND "Must contain a number" for an empty field. Worse UX.                     |
-| **Don't use `and()`, conditionally skip in the composable** | Moves validation logic into the composable instead of keeping it in the rule definition. Harder to test and reason about.              |
-| **Use `or()` instead of `and()`**                           | `or()` would pass if either condition is met — the opposite of what we want. We need BOTH `required` AND `containsNumber` to pass.     |
-| **Put custom rules inline in the composable**               | Pollutes the composable with rule implementation details. A separate `validation-rules.ts` file scales better as more rules are added. |
+### Handle emptiness inside the rule (don't delegate)
+
+**Rejected because**: Would produce duplicate errors: "This field is required" AND "Must contain a number" for an empty field. Worse UX.
+
+### Don't use `and()`, conditionally skip in the composable
+
+**Rejected because**: Moves validation logic into the composable instead of keeping it in the rule definition. Harder to test and reason about.
+
+### Use `or()` instead of `and()`
+
+**Rejected because**: `or()` would pass if either condition is met — the opposite of what we want. We need BOTH `required` AND `containsNumber` to pass.
+
+### Put custom rules inline in the composable
+
+**Rejected because**: Pollutes the composable with rule implementation details. A separate `validation-rules.ts` file scales better as more rules are added.
 
 ## Consequences
 
