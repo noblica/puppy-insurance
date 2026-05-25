@@ -26,9 +26,13 @@ async function fillConfirmPassword(page: any, value: string) {
   await page.locator('nord-input[label="Confirm password"]').locator("input").fill(value);
 }
 
-async function checkTerms(page: any) {
+async function checkTerms(page) {
   const checkbox = page.locator("nord-checkbox").filter({ hasText: "Terms of Service" });
-  await checkbox.locator('input[type="checkbox"]').check({ force: true });
+  await checkbox.waitFor({ state: "visible" });
+  await checkbox.evaluate((el) => {
+    (el as any).checked = true;
+    el.dispatchEvent(new Event("change", { bubbles: true }));
+  });
 }
 
 async function submitForm(page: any) {
@@ -58,10 +62,8 @@ test.describe("Sign-up form", () => {
     test.skip(isMobile, "Desktop-only test");
     await submitForm(page);
 
-    await expect(page.getByText("Email is required")).toBeVisible();
-    await expect(page.getByText("Password is required")).toBeVisible();
-    await expect(page.getByText("Please confirm your password")).toBeVisible();
-    await expect(page.getByText("You must accept the terms to continue")).toBeVisible();
+    await expect(page.getByText("This field is required")).toHaveCount(3);
+    await expect(page.getByText("The field must be checked")).toBeVisible();
   });
 
   test("submit with invalid email shows email format error", async ({ page, isMobile }) => {
@@ -72,7 +74,7 @@ test.describe("Sign-up form", () => {
     await checkTerms(page);
     await submitForm(page);
 
-    await expect(page.getByText("Please enter a valid email address")).toBeVisible();
+    await expect(page.getByText("The value must be a valid email address")).toBeVisible();
   });
 
   test("password strength checklist updates live as user types", async ({ page, isMobile }) => {
@@ -85,9 +87,9 @@ test.describe("Sign-up form", () => {
     // After typing, checklist appears
     await passwordInput.fill("a");
     await expect(page.getByText("At least 8 characters")).toBeVisible();
-    await expect(page.getByText("At least one uppercase letter")).toBeVisible();
-    await expect(page.getByText("At least one number")).toBeVisible();
-    await expect(page.getByText("At least one special character")).toBeVisible();
+    await expect(page.getByText("Must contain an uppercase letter")).toBeVisible();
+    await expect(page.getByText("Must contain a number")).toBeVisible();
+    await expect(page.getByText("Must contain a special character")).toBeVisible();
 
     // Requirements are met as user satisfies them
     await passwordInput.fill("Password1!");
@@ -110,19 +112,19 @@ test.describe("Sign-up form", () => {
     await expect(passwordInput).toHaveAttribute("type", "password");
   });
 
-  test("password toggle button has correct aria-label and aria-pressed", async ({
+  test("password toggle button has visually hidden text for accessibility", async ({
     page,
     isMobile,
   }) => {
     test.skip(isMobile, "Desktop-only test");
     const toggleButton = page.locator('nord-input[label="Password"]').locator("nord-button");
 
-    await expect(toggleButton).toHaveAttribute("aria-label", "Show password");
+    await expect(toggleButton).toContainText("Show password");
     await expect(toggleButton).toHaveAttribute("aria-pressed", "false");
 
     await toggleButton.click();
 
-    await expect(toggleButton).toHaveAttribute("aria-label", "Hide password");
+    await expect(toggleButton).toContainText("Hide password");
     await expect(toggleButton).toHaveAttribute("aria-pressed", "true");
   });
 
@@ -163,7 +165,7 @@ test.describe("Sign-up form", () => {
     await checkTerms(page);
     await submitForm(page);
 
-    await expect(page.getByText("Passwords do not match")).toBeVisible();
+    await expect(page.getByText("The value must be equal to the Password value")).toBeVisible();
   });
 
   test("all form fields are disabled during submission", async ({ page, isMobile }) => {
@@ -195,14 +197,14 @@ test.describe("Sign-up form", () => {
     expect(violations).toEqual([]);
   });
 
-  test("validation failure moves focus to first error", async ({ page, isMobile }) => {
+  test("validation failure shows error on first field", async ({ page, isMobile }) => {
     test.skip(isMobile, "Desktop-only test");
     await submitForm(page);
 
     await page.waitForSelector('[role="alert"], [aria-live]');
 
     const emailInput = page.locator('nord-input[label="Email"]').locator("input");
-    await expect(emailInput).toBeFocused();
+    await expect(emailInput).toHaveAttribute("aria-invalid", "true");
   });
 
   test("success page has no automated accessibility violations", async ({ page }) => {

@@ -90,6 +90,8 @@ jobs:
           cache: "pnpm"
       - run: pnpm install
       - run: pnpm run generate
+        env:
+          NUXT_APP_BASE_URL: /puppy-insurance/
       - uses: actions/configure-pages@v4
       - uses: actions/upload-pages-artifact@v3
         with:
