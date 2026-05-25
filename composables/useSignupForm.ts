@@ -36,7 +36,7 @@ export function useSignupForm() {
         required,
         minLength: and(required, minLength(8)),
         containsUppercase: and(required, containsUppercase()),
-        containsNumber: and(required, containsNumber),
+        containsNumber: and(required, containsNumber()),
         containsSpecialCharacter: and(required, containsSpecialCharacter()),
       },
       confirmPassword: { required, sameAs: sameAs(() => form.password, "Password") },
