@@ -40,7 +40,7 @@ function handleClearError() {
 </script>
 
 <template>
-  <div class="n:flex n:items-center n:justify-center n:min-h-full n:p-m n:bg-default">
+  <div class="n:flex n:items-center n:justify-center n:min-h-dvh n:p-m n:bg-default">
     <nord-card padding="l" className="n:w-full n:max-w-[440px]">
       <nord-stack slot="header">
         <h1 class="n:text-l">{{ statusDescription.heading }}</h1>
