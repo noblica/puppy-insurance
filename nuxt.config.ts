@@ -5,7 +5,7 @@ export default defineNuxtConfig({
   modules: ["@regle/nuxt"],
   ssr: false,
   app: {
-    baseURL: "/",
+    baseURL: "/puppy-insurance/",
     head: {
       htmlAttrs: { lang: "en" },
     },
