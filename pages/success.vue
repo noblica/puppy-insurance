@@ -1,8 +1,4 @@
 <script setup lang="ts">
-import "@nordhealth/components/lib/Card";
-import "@nordhealth/components/lib/Icon";
-import "@nordhealth/components/lib/Stack";
-import "@nordhealth/components/lib/Button";
 import { SIGNUP_COMPLETE_KEY } from "~/utils/constants";
 
 useHead({ title: "Account created | Puppy Insurance" });

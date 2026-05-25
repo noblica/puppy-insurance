@@ -75,4 +75,3 @@ This tells Vue's template compiler not to warn about unknown elements with the `
 - **Positive**: The plugin file serves as a canonical registry — developers can see at a glance which Nord components the project uses.
 - **Positive**: No Vue warnings about unknown elements, and Vue correctly passes through all attributes and events to the custom elements.
 - **Negative**: Adding a new Nord component requires two changes — the import in `plugins/nord.ts` and the template usage. Forgetting the import causes a silent failure (the component renders as an empty HTML element with no visual output and no console error).
-- **Negative**: As component usage grows, the import list becomes longer. A barrel import may make sense if usage crosses a threshold (~15–20 components), making this decision reversible.

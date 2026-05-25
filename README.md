@@ -119,6 +119,8 @@ pnpm preview
 │   ├── main.css                 # Tailwind + Nord CSS imports
 │   ├── hero.jpg                 # Hero image
 │   └── logo.png                 # Logo
+├── plugins/
+│   └── nord.ts                  # Nord component registration
 ├── tests/
 │   ├── unit/                    # Vitest unit tests
 │   └── e2e/                     # Playwright E2E tests
@@ -140,7 +142,7 @@ SSR is disabled (`ssr: false` in `nuxt.config.ts`). Nuxt is pinned to v3.21.2 du
 
 ### Nord Design System
 
-All Nord components use the `nord-` prefix and are configured as custom elements in Vue's compiler options. See [`llms.md`](./llms.md) for component documentation.
+Nord components are registered through a dedicated Nuxt plugin (`plugins/nord.ts`) using cherry-picked side-effect imports so only the 7 used components end up in the production bundle. All Nord components use the `nord-` prefix and are configured as custom elements in Vue's compiler options. See [`docs/adr/005-nord-plugin-component-registration.md`](./docs/adr/005-nord-plugin-component-registration.md) and [`llms.md`](./llms.md) for details.
 
 ### Regle Validation
 

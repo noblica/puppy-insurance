@@ -1,6 +1,4 @@
 <script setup lang="ts">
-import "@nordhealth/components/lib/Icon";
-
 const rules = [
   { label: "At least 8 characters", ruleField: "minLength" as const },
   { label: "Must contain an uppercase letter", ruleField: "containsUppercase" as const },
