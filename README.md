@@ -24,7 +24,7 @@ A client-only Vue.js application featuring a sign-up form with real-time validat
 
 ## Prerequisites
 
-- Node.js 22 (see `.nvmrc`)
+- Node.js 24 (see `.nvmrc`)
 - pnpm 10.26.2 (see `packageManager` in package.json)
 
 ## Getting Started
