@@ -71,7 +71,7 @@ jobs:
       - run: pnpm run generate
 
   deploy:
-    needs: [typecheck, unit-tests, build]
+    needs: [typecheck, unit-tests, e2e-tests, build]
     runs-on: ubuntu-latest
     permissions:
       pages: write

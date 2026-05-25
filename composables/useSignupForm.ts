@@ -14,6 +14,11 @@ import {
 import { containsNumber } from "~/utils/validation-rules";
 import { SIGNUP_COMPLETE_KEY } from "~/utils/constants";
 
+function focusFirstInvalidField(form: HTMLFormElement) {
+  const element = form.querySelector<HTMLElement>("[error]:not([error=''])");
+  element?.focus();
+}
+
 export function useSignupForm() {
   const form = reactive({
     email: "",
@@ -49,10 +54,9 @@ export function useSignupForm() {
     r$.$touch();
     if (r$.$invalid) {
       nextTick(() => {
-        const firstInvalid = formRef.value?.querySelector<HTMLElement>(
-          'nord-input[error]:not([error=""]), nord-checkbox[error]:not([error=""])',
-        );
-        firstInvalid?.focus();
+        if (formRef.value != null) {
+          focusFirstInvalidField(formRef.value);
+        }
       });
       return;
     }
