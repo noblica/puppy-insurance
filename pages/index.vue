@@ -54,10 +54,20 @@ const passwordVisible = ref(false);
 const confirmPasswordVisible = ref(false);
 const formState = ref<"idle" | "submitted" | "submitting">("idle");
 
+const formRef = ref<HTMLFormElement | null>(null);
+
 const onSubmit = () => {
   formState.value = "submitted";
   r$.$touch();
-  if (r$.$invalid) return;
+  if (r$.$invalid) {
+    nextTick(() => {
+      const firstInvalid = formRef.value?.querySelector<HTMLElement>(
+        'nord-input[error]:not([error=""]), nord-checkbox[error]:not([error=""])',
+      );
+      firstInvalid?.focus();
+    });
+    return;
+  }
 
   formState.value = "submitting";
   setTimeout(() => {
@@ -72,7 +82,7 @@ const onSubmit = () => {
     <nord-stack slot="header">
       <h1 class="n:text-l">Sign Up for Puppy Insurance</h1>
     </nord-stack>
-    <form novalidate @submit.prevent="onSubmit">
+    <form ref="formRef" novalidate @submit.prevent="onSubmit">
       <nord-stack gap="xl">
         <nord-stack>
           <nord-input

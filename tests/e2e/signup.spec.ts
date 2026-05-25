@@ -1,4 +1,4 @@
-import { test as base, expect } from "@playwright/test";
+import { test as base, expect, type Page } from "@playwright/test";
 import AxeBuilder from "@axe-core/playwright";
 
 type TestFixtures = {
@@ -14,28 +14,28 @@ const test = base.extend<TestFixtures>({
 const VALID_EMAIL = "test@example.com";
 const VALID_PASSWORD = "Password1!";
 
-async function fillEmail(page: any, value: string) {
+async function fillEmail(page: Page, value: string) {
   await page.locator('nord-input[label="Email"]').locator("input").fill(value);
 }
 
-async function fillPassword(page: any, value: string) {
+async function fillPassword(page: Page, value: string) {
   await page.locator('nord-input[label="Password"]').locator("input").fill(value);
 }
 
-async function fillConfirmPassword(page: any, value: string) {
+async function fillConfirmPassword(page: Page, value: string) {
   await page.locator('nord-input[label="Confirm password"]').locator("input").fill(value);
 }
 
-async function checkTerms(page) {
+async function checkTerms(page: Page) {
   const checkbox = page.locator("nord-checkbox").filter({ hasText: "Terms of Service" });
   await checkbox.waitFor({ state: "visible" });
-  await checkbox.evaluate((el) => {
-    (el as any).checked = true;
+  await checkbox.evaluate((el: Element) => {
+    (el as HTMLElement & { checked: boolean }).checked = true;
     el.dispatchEvent(new Event("change", { bubbles: true }));
   });
 }
 
-async function submitForm(page: any) {
+async function submitForm(page: Page) {
   await page.getByRole("button", { name: "Create account" }).click();
 }
 
@@ -197,14 +197,14 @@ test.describe("Sign-up form", () => {
     expect(violations).toEqual([]);
   });
 
-  test("validation failure shows error on first field", async ({ page, isMobile }) => {
+  test("validation failure moves focus to first error", async ({ page, isMobile }) => {
     test.skip(isMobile, "Desktop-only test");
     await submitForm(page);
 
     await page.waitForSelector('[role="alert"], [aria-live]');
 
     const emailInput = page.locator('nord-input[label="Email"]').locator("input");
-    await expect(emailInput).toHaveAttribute("aria-invalid", "true");
+    await expect(emailInput).toBeFocused();
   });
 
   test("success page has no automated accessibility violations", async ({ page }) => {
