@@ -162,12 +162,9 @@ See [`docs/adr/002-testing-strategy.md`](./docs/adr/002-testing-strategy.md) for
 
 GitHub Actions workflow runs on every push and pull request:
 
-1. **lint**: oxlint + oxfmt check
-2. **typecheck**: TypeScript type checking
-3. **unit-tests**: Vitest
-4. **e2e-tests**: Playwright + axe-core accessibility
-5. **build**: Static site generation
-6. **deploy**: GitHub Pages deployment (on main branch)
+1. **verify**: oxlint + oxfmt check, TypeScript typecheck, Vitest unit tests
+2. **e2e-tests**: Playwright + axe-core accessibility
+3. **deploy**: Static site generation and GitHub Pages deployment (requires verify + e2e-tests to pass)
 
 ## Notes
 

@@ -65,4 +65,4 @@ Adopt a three-layer testing strategy:
 - **Positive**: Every production code file has corresponding tests. 20 unit tests + 16 E2E tests provide comprehensive coverage for the project's scale.
 - **Positive**: Accessibility regressions are caught automatically in CI before deployment.
 - **Positive**: Module-level mocking (`vi.mock`) avoids fake timers entirely — submission tests are deterministic without `advanceTimersByTime`.
-- **Negative**: CI runs are longer due to E2E + accessibility scans. The `lint` / `typecheck` / `unit-tests` / `e2e-tests` / `build` pipeline runs sequentially in GitHub Actions.
+- **Negative**: CI runs are longer due to E2E + accessibility scans. The `verify` / `e2e-tests` / `deploy` pipeline runs sequentially in GitHub Actions.
